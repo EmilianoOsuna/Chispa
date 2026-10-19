@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/figtree";
+
+/* Tokens tomados del canvas "Chispa — rachas en pareja" */
+@theme {
+  --font-sans: "Figtree Variable", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Figtree Variable", sans-serif;
+
+  --color-ground: #F3F5FA;
+  --color-ink: #14213D;
+  --color-ink-deep: #0A1328;
+  --color-navy: #22305A;
+  --color-navy-card: #1B2A4E;
+  --color-navy-line: #2E4072;
+  --color-line: #E3E8F2;
+  --color-line-soft: #EEF1F7;
+  --color-toggle: #C9D2E4;
+  --color-muted: #5A6785;
+  --color-mist: #B7C3DD;
+  --color-faint: #8A95AE;
+
+  --color-flame: #FF8A2A;
+  --color-flame-light: #FF9A45;
+  --color-flame-deep: #C2410C;
+  --color-flame-clock: #B4440A;
+  --color-ember: #7A2E05;
+  --color-peach: #FFE6D1;
+  --color-peach-line: #FFC79A;
+  --color-peach-soft: #FFF1E5;
+
+  --color-sky: #2563EB;
+  --color-sky-deep: #1A47B8;
+  --color-sky-ink: #1D4ED8;
+  --color-sky-light: #3B82F6;
+  --color-sky-pale: #8DB4FF;
+  --color-sky-soft: #DCE8FF;
+  --color-sky-mist: #EAF1FF;
+}
+
+@layer base {
+  html, body { background: var(--color-ground); color: var(--color-ink); }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+  #root { min-height: 100dvh; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  :focus-visible { outline: 3px solid var(--color-sky); outline-offset: 2px; }
+}
+
+/* Botón/tarjeta "3D": sombra sólida inferior que se hunde al presionar.
+   Uso: class="press [--press-c:var(--color-flame-deep)] [--press-d:5px]" */
+.press {
+  box-shadow: 0 var(--press-d, 4px) 0 var(--press-c, var(--color-line));
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out;
+}
+.press:not(:disabled):active {
+  transform: translateY(var(--press-d, 4px));
+  box-shadow: 0 0 0 var(--press-c, var(--color-line));
+}
+.shadow-solid { box-shadow: 0 var(--press-d, 4px) 0 var(--press-c, var(--color-line)); }
+
+/* Animaciones del diseño */
+@keyframes chispaShake { 0%,100%{transform:rotate(0deg)} 20%{transform:rotate(-6deg)} 40%{transform:rotate(5deg)} 60%{transform:rotate(-3deg)} 80%{transform:rotate(2deg)} }
+@keyframes chispaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,138,42,.55)} 50%{box-shadow:0 0 0 14px rgba(255,138,42,0)} }
+@keyframes chispaBounce { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-10px) scale(1.04)} }
+@keyframes chispaFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:0} 15%{opacity:1} 100%{transform:translateY(120px) rotate(200deg);opacity:0} }
+@keyframes chispaBreathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.035) translateY(-1px)} }
+
+.tiembla { animation: chispaShake 1.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.pulso { animation: chispaPulse 1.6s ease-out infinite; }
+.flama { animation: chispaBounce 1.6s ease-in-out infinite; transform-origin: 50% 100%; }
+.respira { animation: chispaBreathe 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+.confeti { animation: chispaFall 2.8s ease-in infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tiembla, .pulso, .flama, .respira { animation: none; }
+  .confeti { display: none; }
+  .press { transition: none; }
+}
