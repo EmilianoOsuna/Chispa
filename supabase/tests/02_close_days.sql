@@ -8,7 +8,7 @@ insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-00000000000b', 'b@test.mx');
 insert into public.profiles (id, name) values
   ('00000000-0000-0000-0000-00000000000a', 'Emi'),
-  ('00000000-0000-0000-0000-00000000000b', 'Hannah');
+  ('00000000-0000-0000-0000-00000000000b', 'Hanna');
 
 set local app.now = '2026-10-05 12:00:00-06';
 insert into public.couples (id, invite_code, timezone, paired_at, closed_through)
@@ -52,11 +52,11 @@ select is((select current from public.streak_counters where streak_id = '5000000
   'entre semana: fin de semana no rompe → 5');
 select is((select current from public.streak_counters where streak_id = '50000000-0000-0000-0000-000000000003' and user_id = '00000000-0000-0000-0000-00000000000a'), 1,
   'semanal: semana cumplida → 1');
-select is((select state from public.couple_days where local_date = '2026-10-06'), 'broken', 'martes roto');
-select is((select array[flame_all, sky_all] from public.couple_days where local_date = '2026-10-06'), array[true, false], 'martes: solo Emi cumplió todo');
-select is((select state from public.couple_days where local_date = '2026-10-11'), 'protected', 'domingo protegido');
-select is((select streak_after from public.couple_days where local_date = '2026-10-11'), 5, 'racha en pareja 5 al domingo');
-select is((select best_streak from public.couples), 5, 'mejor racha de pareja 5');
+select is((select state from public.couple_days where couple_id = 'c0000000-0000-0000-0000-000000000001' and local_date = '2026-10-06'), 'broken', 'martes roto');
+select is((select array[flame_all, sky_all] from public.couple_days where couple_id = 'c0000000-0000-0000-0000-000000000001' and local_date = '2026-10-06'), array[true, false], 'martes: solo Emi cumplió todo');
+select is((select state from public.couple_days where couple_id = 'c0000000-0000-0000-0000-000000000001' and local_date = '2026-10-11'), 'protected', 'domingo protegido');
+select is((select streak_after from public.couple_days where couple_id = 'c0000000-0000-0000-0000-000000000001' and local_date = '2026-10-11'), 5, 'racha en pareja 5 al domingo');
+select is((select best_streak from public.couples where id = 'c0000000-0000-0000-0000-000000000001'), 5, 'mejor racha de pareja 5');
 
 select public.close_due_days();
 select is((select current from public.streak_counters where streak_id = '50000000-0000-0000-0000-000000000001' and user_id = '00000000-0000-0000-0000-00000000000a'), 5,
@@ -70,16 +70,16 @@ select s, u, d::date
        unnest(array['2026-10-12', '2026-10-13']) d;
 set local app.now = '2026-10-14 08:00:00-06';
 select public.close_due_days();
-select is((select streak_after from public.couple_days where local_date = '2026-10-13'), 7, '7 días en pareja');
-select is((select freezes from public.couples), 1, 'gana 1 protector a los 7 días perfectos');
-select ok(exists (select 1 from public.achievements where code = 'week'), 'logro Primera semana');
+select is((select streak_after from public.couple_days where couple_id = 'c0000000-0000-0000-0000-000000000001' and local_date = '2026-10-13'), 7, '7 días en pareja');
+select is((select freezes from public.couples where id = 'c0000000-0000-0000-0000-000000000001'), 1, 'gana 1 protector a los 7 días perfectos');
+select ok(exists (select 1 from public.achievements where code = 'week' and couple_id = 'c0000000-0000-0000-0000-000000000001'), 'logro Primera semana');
 
 -- RPCs como A
 set local app.now = '2026-10-14 12:00:00-06';
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000a","role":"authenticated"}', true);
 set local role authenticated;
 select lives_ok($$ select public.use_freeze('50000000-0000-0000-0000-000000000002') $$, 'usa protector');
-select is((select freezes from public.couples), 0, 'protector descontado');
+select is((select freezes from public.couples where id = 'c0000000-0000-0000-0000-000000000001'), 0, 'protector descontado');
 select throws_ok($$ select public.use_freeze('50000000-0000-0000-0000-000000000001') $$, 'no_freezes', 'sin protectores');
 select lives_ok($$ select public.send_nudge('50000000-0000-0000-0000-000000000001', '¡Vamos!') $$, 'envía toque');
 select throws_ok($$ select public.send_nudge('50000000-0000-0000-0000-000000000001', 'otra vez') $$, 'rate_limited', 'límite de 10 min');

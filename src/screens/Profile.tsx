@@ -4,7 +4,8 @@ import { supabase } from '../lib/supabase'
 import { errorMessage, useToday } from '../lib/queries'
 import { currentSubscription, disablePush, enablePush, isIos, isStandalone, pushSupported } from '../lib/push'
 import { toast } from '../lib/toast'
-import { Avatar } from '../components/bits'
+import { Avatar, COLOR } from '../components/bits'
+import { AVATAR_LABELS, AVATAR_STYLE_IDS, randomSeed, type AvatarStyle } from '../lib/avatar'
 import { Icon } from '../components/Icon'
 
 export default function Profile() {
@@ -14,6 +15,7 @@ export default function Profile() {
   const [name, setName] = useState(me?.name ?? '')
   const [push, setPush] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [locating, setLocating] = useState(false)
   useEffect(() => { currentSubscription().then((s) => setPush(!!s)) }, [])
   useEffect(() => { if (me) setName(me.name) }, [me])
   if (!t || !me) return null
@@ -39,6 +41,29 @@ export default function Profile() {
     setBusy(false)
   }
 
+  async function saveAvatar(style: AvatarStyle | null, seed: string | null) {
+    const { error } = await supabase.from('profiles').update({ avatar_style: style, avatar_seed: seed }).eq('id', t!.me)
+    if (error) return toast(errorMessage(error))
+    qc.invalidateQueries({ queryKey: ['today'] })
+  }
+
+  function detectTimezone() {
+    if (!('geolocation' in navigator)) return toast('Este dispositivo no tiene GPS disponible')
+    setLocating(true)
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      try {
+        const { default: tzlookup } = await import('@photostructure/tz-lookup')
+        const tz = tzlookup(coords.latitude, coords.longitude)
+        const { error } = await supabase.rpc('set_timezone', { p_timezone: tz })
+        if (error) throw error
+        toast(`Zona horaria: ${tz.replace('America/', '').replace('_', ' ')}`)
+        qc.invalidateQueries({ queryKey: ['today'] })
+        qc.invalidateQueries({ queryKey: ['month'] })
+      } catch (e) { toast(errorMessage(e)) }
+      setLocating(false)
+    }, () => { setLocating(false); toast('No pudimos leer tu ubicación') }, { enableHighAccuracy: false, timeout: 15000 })
+  }
+
   async function signOut() {
     await disablePush().catch(() => {})
     await supabase.auth.signOut()
@@ -52,10 +77,39 @@ export default function Profile() {
         <h1 className="m-0 font-display text-[26px] font-extrabold">Perfil</h1>
       </header>
 
-      <div className="flex items-center gap-3">
-        <Avatar name={me.name} color={me.color} size={56} />
-        <div className="text-[13px] font-bold text-muted">Tu color en Chispa es {me.color === 'flame' ? 'naranja' : 'azul'}</div>
-      </div>
+      <section className="flex flex-col gap-3" aria-label="Avatar">
+        <div className="flex items-center gap-3">
+          <Avatar {...me} size={64} />
+          <div className="flex flex-col">
+            <span className="text-sm font-extrabold">Tu avatar</span>
+            <span className="text-[13px] font-semibold text-muted">Tu color en Chispa es {me.color === 'flame' ? 'naranja' : 'azul'}</span>
+          </div>
+          {me.avatar_style && (
+            <button type="button" onClick={() => saveAvatar(me.avatar_style, randomSeed())}
+              className="press [--press-c:var(--color-sky-deep)] ml-auto flex min-h-11 items-center rounded-2xl bg-sky px-3 text-sm font-extrabold text-white">
+              Otro
+            </button>
+          )}
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          <button type="button" aria-pressed={!me.avatar_style} onClick={() => saveAvatar(null, null)}
+            className={`flex flex-col items-center gap-1 rounded-2xl border-2 p-1.5 ${!me.avatar_style ? 'border-sky bg-sky-soft' : 'border-line bg-white'}`}>
+            <span className="flex size-12 items-center justify-center rounded-full font-display text-xl font-extrabold"
+              style={{ background: COLOR[me.color].bg, color: COLOR[me.color].on }}>{me.name[0]}</span>
+            <span className="text-[11px] font-bold">Inicial</span>
+          </button>
+          {AVATAR_STYLE_IDS.map((st) => {
+            const on = me.avatar_style === st
+            return (
+              <button key={st} type="button" aria-pressed={on} onClick={() => saveAvatar(st, me.avatar_seed || randomSeed())}
+                className={`flex flex-col items-center gap-1 rounded-2xl border-2 p-1.5 ${on ? 'border-sky bg-sky-soft' : 'border-line bg-white'}`}>
+                <Avatar {...me} avatar_style={st} size={48} ring="transparent" />
+                <span className="text-[11px] font-bold">{AVATAR_LABELS[st]}</span>
+              </button>
+            )
+          })}
+        </div>
+      </section>
 
       <form onSubmit={saveName} className="flex flex-col gap-2">
         <label htmlFor="nombre" className="text-sm font-extrabold">Tu nombre</label>
@@ -86,9 +140,15 @@ export default function Profile() {
               : 'Este navegador no soporta notificaciones.'}
           </p>
         )}
-        <div className="flex items-center justify-between border-t-2 border-line-soft px-3.5 py-3 text-[15px] font-bold">
-          <span>Zona horaria</span>
-          <span className="text-muted">{t.couple.timezone}</span>
+        <div className="flex items-center justify-between gap-3 border-t-2 border-line-soft px-3.5 py-3 text-[15px] font-bold">
+          <span className="flex flex-col">
+            Zona horaria
+            <span className="text-[13px] font-semibold text-muted">{t.couple.timezone.replace(/_/g, ' ')}</span>
+          </span>
+          <button type="button" onClick={detectTimezone} disabled={locating}
+            className="flex min-h-11 items-center gap-1.5 rounded-xl bg-line-soft px-3 text-sm font-extrabold text-sky-ink disabled:opacity-60">
+            {locating ? 'Buscando…' : 'Detectar con GPS'}
+          </button>
         </div>
       </div>
 
@@ -96,6 +156,9 @@ export default function Profile() {
         className="flex min-h-[52px] items-center justify-center rounded-[18px] border-2 border-line text-[15px] font-extrabold text-flame-deep">
         Cerrar sesión
       </button>
+      <p className="text-center text-[11px] font-semibold text-faint">
+        Avatares de <a href="https://www.dicebear.com" target="_blank" rel="noreferrer" className="text-muted">DiceBear</a> (licencias por estilo, CC BY 4.0 / CC0)
+      </p>
     </main>
   )
 }

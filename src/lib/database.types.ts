@@ -123,14 +123,14 @@ isOneToOne: true
                   ]
                 },"couples": {
                   Row: {
-                    "best_streak": number,"closed_through": string | null,"created_at": string,"freezes": number,"id": string,"invite_code": string,"paired_at": string | null,"timezone": string
+                    "best_streak": number,"closed_through": string,"created_at": string,"freezes": number,"id": string,"invite_code": string,"paired_at": string | null,"timezone": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "best_streak"?: number,"closed_through"?: string | null,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code": string,"paired_at"?: string | null,"timezone": string
+                    "best_streak"?: number,"closed_through": string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code": string,"paired_at"?: string | null,"timezone": string
                   }
                   Update: {
-                    "best_streak"?: number,"closed_through"?: string | null,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code"?: string,"paired_at"?: string | null,"timezone"?: string
+                    "best_streak"?: number,"closed_through"?: string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code"?: string,"paired_at"?: string | null,"timezone"?: string
                   }
                   Relationships: [
                     
@@ -207,14 +207,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "created_at": string,"id": string,"name": string
+                    "avatar_seed": string | null,"avatar_style": string | null,"created_at": string,"id": string,"name": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id": string,"name": string
+                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id": string,"name": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"name"?: string
+                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id"?: string,"name"?: string
                   }
                   Relationships: [
                     
@@ -372,6 +372,14 @@ isOneToOne: false
             "app_now":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
+"call_push":
+{ Args: { "p_payload": Json }; Returns: undefined
+                           },
+"claim_reminders":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "at_stake": number,"streak_id": string,"streak_name": string,"user_id": string
+            }[]
+                           },
 "close_couple_day":
 { Args: { "c": Omit<Database["public"]['Tables']["couples"]['Row'], Database["public"]['Tables']["couples"]['ComputedFields']>,"d": string,"p_flame": string,"p_sky": string }; Returns: undefined
                            },
@@ -387,7 +395,7 @@ isOneToOne: false
 "create_couple":
 { Args: { "p_timezone": string }; Returns: {
               "best_streak": number,
-"closed_through": string | null,
+"closed_through": string,
 "created_at": string,
 "freezes": number,
 "id": string,
@@ -416,7 +424,7 @@ isOneToOne: false
 "join_couple":
 { Args: { "p_code": string }; Returns: {
               "best_streak": number,
-"closed_through": string | null,
+"closed_through": string,
 "created_at": string,
 "freezes": number,
 "id": string,
@@ -453,6 +461,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"set_timezone":
+{ Args: { "p_timezone": string }; Returns: undefined
+                           },
 "today_state":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },

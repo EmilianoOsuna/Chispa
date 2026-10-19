@@ -8,8 +8,8 @@ Evita que la racha se apague: alerta "Racha en peligro" con cuenta regresiva, to
 Cuando una racha Juntos exigible hoy ya fue cumplida por la pareja, el usuario no la ha cumplido y faltan 2 horas o menos para la hora límite, la app SHALL mostrar al abrirse (una vez por racha y día) la pantalla "Racha en peligro": llama asustada temblando, "¡No dejes que se apague!", mensaje con los días en juego, cuenta regresiva en horas/minutos/segundos actualizándose cada segundo, estado de ambos (el pendiente con pulso), último toque recibido, botón para marcar y botón para usar protector.
 
 #### Scenario: Abrir la app en peligro
-- **WHEN** Emi abre la app a las 21:43 con "Ejercicio" (límite 23:30) cumplido solo por Hannah
-- **THEN** ve Racha en peligro con cuenta regresiva 01:47:xx y el toque más reciente de Hannah
+- **WHEN** Emi abre la app a las 21:43 con "Ejercicio" (límite 23:30) cumplido solo por Hanna
+- **THEN** ve Racha en peligro con cuenta regresiva 01:47:xx y el toque más reciente de Hanna
 
 #### Scenario: Marcar desde peligro
 - **WHEN** Emi toca "Ya hice ejercicio"
@@ -23,11 +23,11 @@ Cuando una racha Juntos exigible hoy ya fue cumplida por la pareja, el usuario n
 Un miembro SHALL poder enviar a su pareja un toque con texto opcional (máx. 140 caracteres) desde una racha pendiente de la pareja. El receptor SHALL verlo en la app en vivo y recibir una notificación push si las tiene activas. Se limita a 1 toque por racha cada 10 minutos por emisor.
 
 #### Scenario: Enviar toque
-- **WHEN** Hannah envía "¡Vamos, son solo 20 minutos!" en la racha Ejercicio
-- **THEN** Emi recibe una push "Hannah te mandó un toque" y el mensaje aparece en la pantalla Racha en peligro
+- **WHEN** Hanna envía "¡Vamos, son solo 20 minutos!" en la racha Ejercicio
+- **THEN** Emi recibe una push "Hanna te mandó un toque" y el mensaje aparece en la pantalla Racha en peligro
 
 #### Scenario: Límite de toques
-- **WHEN** Hannah intenta enviar otro toque en la misma racha antes de 10 minutos
+- **WHEN** Hanna intenta enviar otro toque en la misma racha antes de 10 minutos
 - **THEN** el envío se rechaza y el botón muestra cuándo puede volver a tocar
 
 ### Requirement: Protector de racha
@@ -49,8 +49,8 @@ Al activar notificaciones, la app SHALL pedir permiso del navegador y registrar 
 - **THEN** Emi recibe una sola push con el nombre de la racha y los días en juego
 
 #### Scenario: Ya cumplió
-- **WHEN** Hannah ya marcó la racha antes del recordatorio
-- **THEN** Hannah no recibe la push
+- **WHEN** Hanna ya marcó la racha antes del recordatorio
+- **THEN** Hanna no recibe la push
 
 #### Scenario: iOS no instalada
 - **WHEN** el usuario usa iOS Safari sin haber instalado la PWA

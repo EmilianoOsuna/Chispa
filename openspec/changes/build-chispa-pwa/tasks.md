@@ -19,7 +19,7 @@
 
 - [x] 3.1 `App.tsx`: QueryClient persistido, `MotionConfig reducedMotion="user"`, rutas (`/login`, `/bienvenida`, `/`, `/nosotros`, `/perfil`, `/racha/nueva`, `/racha/:id/peligro`, `/celebracion`), `AnimatePresence` entre rutas, columna máx. 430px y guard de sesión/pareja; verificar navegando que sin sesión redirige a `/login`
 - [x] 3.2 `TabBar` (Hoy, Nosotros, Logros → `/nosotros#logros`, Perfil) con `safe-area-inset-bottom` y activo en su color; oculto en pantallas completas; verificar en 390×844 que coincide con el canvas
-- [x] 3.3 Pantalla Login en dos pasos: correo (`signInWithOtp` sin redirect) → código de 6 dígitos (`verifyOtp` type `email`, input `inputmode="numeric" autocomplete="one-time-code"`) con reenviar; plantilla de email con `{{ .Token }}`; verificar que el código del Inbucket local inicia sesión y uno erróneo muestra error
+- [x] 3.3 Pantalla Login con correo + contraseña (`signInWithPassword`) y mensaje de credenciales incorrectas; registro público desactivado; verificar que una cuenta creada en el panel entra y una contraseña errónea muestra error
 - [x] 3.4 Onboarding: pedir nombre, crear pareja (código + botón copiar) o unirse tecleando el código; esperar en vivo al segundo miembro; verificar con dos navegadores que el creador ve la unión sin recargar
 - [x] 3.5 Pantalla Perfil: editar nombre, código si la pareja está incompleta, interruptor de notificaciones, cerrar sesión; verificar que cerrar sesión regresa a `/login`
 
@@ -48,5 +48,5 @@
 
 ## 7. Despliegue y verificación final
 
-- [ ] 7.1 Crear proyecto Supabase remoto, `supabase db push`, `supabase functions deploy push`, secretos VAPID, plantilla de email con código y expiración OTP de 1 h; verificar `supabase test db` en verde contra local y migraciones aplicadas en remoto
-- [ ] 7.2 Desplegar build estático con variables de entorno; verificar instalación en Android (Chrome) e iOS (Safari, Añadir a inicio) y flujo completo con dos teléfonos: emparejar → crear racha → check-in en vivo → celebración → recordatorio push → peligro → protector
+- [ ] 7.1 Proyecto Supabase remoto: migraciones, `push` desplegada, secretos VAPID/PUSH_SECRET, Vault, Site URL y registro desactivado; crear las cuentas de Emi y Hanna en el panel; verificar `supabase test db` en verde y login en producción
+- [ ] 7.2 Desplegar build estático en Cloudflare (Worker `chispa`, assets SPA) con variables de entorno; verificar instalación en Android (Chrome) e iOS (Safari, Añadir a inicio) y flujo completo con dos teléfonos: emparejar → crear racha → check-in en vivo → celebración → recordatorio push → peligro → protector

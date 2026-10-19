@@ -26,7 +26,7 @@ Cuando haya una versión nueva desplegada, la app SHALL ofrecer recargar con un 
 - **THEN** aparece un aviso "Nueva versión disponible" con botón para actualizar
 
 ### Requirement: Navegación inferior
-Las pantallas principales SHALL tener una barra inferior fija con Hoy, Nosotros, Logros y Perfil (ícono + texto, la activa resaltada en su color) que respete el área segura del dispositivo. Las pantallas Nueva racha, Racha en peligro y Racha extendida SHALL mostrarse a pantalla completa sin barra.
+Las pantallas principales SHALL tener una barra inferior fija con Hoy, Nosotros, Logros y Perfil (cada una con su propia pantalla) (ícono + texto, la activa resaltada en su color) que respete el área segura del dispositivo. Las pantallas Nueva racha, Racha en peligro y Racha extendida SHALL mostrarse a pantalla completa sin barra.
 
 #### Scenario: Cambiar de pestaña
 - **WHEN** el usuario toca "Nosotros"

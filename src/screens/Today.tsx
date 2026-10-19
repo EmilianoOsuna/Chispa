@@ -11,6 +11,7 @@ import { Avatar, Count, Week, weekCells } from '../components/bits'
 import { Flame } from '../components/Flame'
 import { Icon } from '../components/Icon'
 import { StreakRow } from '../components/StreakRow'
+import { InviteCard } from '../components/InviteCard'
 
 export function useTick(ms: number) {
   const [, set] = useState(0)
@@ -79,10 +80,12 @@ export default function Today() {
             <Count value={t.sparks} />
           </div>
           <div className="flex" aria-label={t.members.map((m) => m.name).join(' y ')}>
-            {t.members.map((m, i) => <Avatar key={m.user_id} name={m.name} color={m.color} className={i ? '-ml-2.5' : ''} />)}
+            {t.members.map((m, i) => <Avatar key={m.user_id} {...m} className={i ? '-ml-2.5' : ''} />)}
           </div>
         </div>
       </header>
+
+      {t.members.length < 2 && <InviteCard code={t.couple.invite_code} userId={t.me} />}
 
       <section className="shadow-solid flex flex-col gap-4 rounded-[28px] bg-ink px-5 pt-5 pb-[18px] text-white [--press-c:var(--color-ink-deep)] [--press-d:6px]">
         <div className="flex items-center gap-4">

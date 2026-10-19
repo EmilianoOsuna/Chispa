@@ -5,7 +5,7 @@ Chispa existe hoy solo como diseño (canvas "Chispa — rachas en pareja": panta
 ## What Changes
 
 - Nueva PWA (greenfield) en el repo: React + Vite + TypeScript, Tailwind con los tokens del diseño, Motion para animaciones, instalable y con app shell offline.
-- Backend en Supabase: Auth (correo + código de 6 dígitos), Postgres con RLS por pareja, Realtime para ver en vivo cuando la pareja marca, Edge Functions + pg_cron para recordatorios push.
+- Backend en Supabase: Auth (correo + contraseña, cuentas creadas a mano), Postgres con RLS por pareja, Realtime para ver en vivo cuando la pareja marca, Edge Functions + pg_cron para recordatorios push.
 - Emparejamiento: un usuario crea la pareja y comparte un código de 6 caracteres; el otro se une tecleándolo. Máximo 2 miembros; cada uno tiene su color (naranja / azul).
 - Rachas: crear racha con nombre, ícono, frecuencia (diario / entre semana / X por semana), modo (Juntos / Cada quien), hora límite y recordatorio.
 - Check-in diario: marcar la racha de hoy, ver el estado de ambos, contador de racha de pareja, mejor racha y semana actual; celebración animada al extender la racha.

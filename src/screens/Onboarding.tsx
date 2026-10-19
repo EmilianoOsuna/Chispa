@@ -3,26 +3,19 @@ import { AnimatePresence, motion } from 'motion/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
 import { errorMessage } from '../lib/queries'
-import { useCoupleRealtime } from '../lib/realtime'
-import { toast } from '../lib/toast'
 import { Flame } from '../components/Flame'
 import { Icon } from '../components/Icon'
 import { inputClass, primaryClass } from './Login'
 
-type Props = {
-  userId: string
-  profile: { id: string; name: string } | null
-  member: { couple_id: string; couples: { invite_code: string; paired_at: string | null } | null } | null
-}
+type Props = { userId: string; profile: { id: string; name: string } | null }
 
-export default function Onboarding({ userId, profile, member }: Props) {
+export default function Onboarding({ userId, profile }: Props) {
   const qc = useQueryClient()
   const [mode, setMode] = useState<'choose' | 'join'>('choose')
   const [name, setName] = useState('')
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  useCoupleRealtime(member?.couple_id) // el creador ve en vivo cuando su pareja se une
 
   const refresh = () => qc.invalidateQueries({ queryKey: ['membership'] })
   async function run(fn: () => PromiseLike<{ error: unknown }>) {
@@ -40,8 +33,7 @@ export default function Onboarding({ userId, profile, member }: Props) {
   const create = () => run(() => supabase.rpc('create_couple', { p_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone }))
   const join = (e: FormEvent) => { e.preventDefault(); run(() => supabase.rpc('join_couple', { p_code: code })) }
 
-  let step: 'name' | 'choose' | 'join' | 'wait' = 'name'
-  if (profile) step = member ? 'wait' : mode
+  const step = profile ? mode : 'name'
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-[430px] flex-col gap-6 px-5 pt-14 pb-8">
@@ -90,21 +82,6 @@ export default function Onboarding({ userId, profile, member }: Props) {
             </form>
           )}
 
-          {step === 'wait' && member?.couples && (
-            <div className="flex flex-1 flex-col items-center gap-4 text-center">
-              <Flame mood="idle" width={110} />
-              <h1 className="font-display text-[30px] leading-tight font-extrabold">Comparte este código con tu pareja</h1>
-              <button type="button" aria-label={`Copiar código ${member.couples.invite_code}`}
-                onClick={() => navigator.clipboard.writeText(member.couples!.invite_code).then(() => toast('Código copiado'))}
-                className="press [--press-c:#0A1328] [--press-d:6px] flex items-center gap-3 rounded-[22px] bg-ink px-6 py-4 font-display text-[40px] font-extrabold tracking-[8px] text-flame-light">
-                {member.couples.invite_code}
-                <span className="text-mist"><Icon name="copy" size={22} /></span>
-              </button>
-              <p className="max-w-[300px] text-base font-semibold text-muted">
-                Tu pareja abre Chispa, elige “Tengo un código” y lo escribe. Esta pantalla avanza sola cuando se una.
-              </p>
-            </div>
-          )}
         </motion.section>
       </AnimatePresence>
       {error && <p role="alert" className="rounded-2xl border-2 border-peach-line bg-peach px-4 py-3 text-sm font-bold text-ember">{error}</p>}

@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useSpring, useTransform } from 'motion/react'
 import type { Color, DayState } from '../lib/queries'
 import { WEEK_LABELS } from '../lib/time'
 import { Icon } from './Icon'
+import { useAvatarUri, type AvatarStyle } from '../lib/avatar'
 
 export const COLOR: Record<Color, { bg: string; on: string; deep: string }> = {
   flame: { bg: '#FF8A2A', on: '#14213D', deep: '#C2410C' },
@@ -20,7 +21,20 @@ export function Count({ value, className }: { value: number; className?: string 
   return <motion.span className={className}>{text}</motion.span>
 }
 
-export function Avatar({ name, color, size = 34, ring = '#F3F5FA', className = '' }: { name: string; color: Color; size?: number; ring?: string; className?: string }) {
+type AvatarProps = {
+  name: string; color: Color; size?: number; ring?: string; className?: string
+  avatar_style?: AvatarStyle | null; avatar_seed?: string | null
+}
+
+/** DiceBear si la persona eligió uno; si no, su inicial sobre su color. */
+export function Avatar({ name, color, size = 34, ring = '#F3F5FA', className = '', avatar_style, avatar_seed }: AvatarProps) {
+  const uri = useAvatarUri(avatar_style, avatar_seed || name, COLOR[color].bg)
+  if (uri) {
+    return (
+      <img src={uri} alt="" aria-hidden="true" width={size} height={size}
+        className={`flex-none rounded-full ${className}`} style={{ border: `3px solid ${ring}`, background: COLOR[color].bg }} />
+    )
+  }
   return (
     <div aria-hidden="true" className={`flex flex-none items-center justify-center rounded-full font-extrabold ${className}`}
       style={{ width: size, height: size, background: COLOR[color].bg, color: COLOR[color].on, border: `3px solid ${ring}`, fontSize: size * 0.41 }}>

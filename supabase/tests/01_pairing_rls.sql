@@ -11,7 +11,7 @@ insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-00000000000e', 'e@test.mx');
 insert into public.profiles (id, name) values
   ('00000000-0000-0000-0000-00000000000a', 'Emi'),
-  ('00000000-0000-0000-0000-00000000000b', 'Hannah'),
+  ('00000000-0000-0000-0000-00000000000b', 'Hanna'),
   ('00000000-0000-0000-0000-00000000000c', 'Caro'),
   ('00000000-0000-0000-0000-00000000000d', 'Dani'),
   ('00000000-0000-0000-0000-00000000000e', 'Eli');
@@ -29,7 +29,7 @@ set local role authenticated;
 select lives_ok($$ select public.create_couple('America/Mexico_City') $$, 'A crea pareja');
 select throws_ok($$ select public.create_couple('America/Mexico_City') $$, 'already_paired', 'A no puede crear otra');
 reset role;
-update public.couples set invite_code = 'AAAAAA';
+update public.couples set invite_code = 'AAAAAA' where id = (select couple_id from public.couple_members where user_id = '00000000-0000-0000-0000-00000000000a');
 
 -- B se une
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000b","role":"authenticated"}', true);
@@ -50,7 +50,7 @@ select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000
 set local role authenticated;
 select public.create_couple('America/Mexico_City');
 reset role;
-update public.couples set invite_code = 'BBBBBB' where invite_code <> 'AAAAAA';
+update public.couples set invite_code = 'BBBBBB' where id = (select couple_id from public.couple_members where user_id = '00000000-0000-0000-0000-00000000000c');
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000d","role":"authenticated"}', true);
 set local role authenticated;
 select public.join_couple('BBBBBB');

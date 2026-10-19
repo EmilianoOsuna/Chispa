@@ -36,8 +36,8 @@ Es una app detrás de login, sin SEO ni SSR: un SPA estático es más simple de 
 ### 5. PWA: `vite-plugin-pwa` (Workbox, `registerType: 'prompt'`)
 Precache del shell, `injectManifest` para poder añadir los handlers `push` y `notificationclick` en un SW propio (`src/sw.ts`). Aviso de nueva versión con `useRegisterSW`.
 
-### 5b. Auth: correo + código OTP, no magic link
-`signInWithOtp({ email, options: { shouldCreateUser: true } })` y `verifyOtp({ email, token, type: 'email' })`, con la plantilla de email mostrando `{{ .Token }}`. En iOS un enlace mágico abre Safari, cuyo almacenamiento no comparte la PWA instalada, y la sesión quedaría en el lugar equivocado; el código se teclea dentro de la app. Contraseña descartada: obliga a flujo de recuperación. La sesión persiste con refresh token hasta cerrar sesión.
+### 5b. Auth: correo + contraseña, cuentas creadas a mano
+`signInWithPassword`, registro público desactivado (`disable_signup`). Las dos cuentas se crean en el panel de Supabase. Se descartó el código por correo: en el plan gratis con el SMTP por defecto Supabase no permite editar plantillas (no se puede incluir `{{ .Token }}`) y limita a ~2 correos/hora. Con contraseña no hay correos y el login ocurre dentro de la PWA, también en iOS. La sesión persiste con refresh token hasta cerrar sesión.
 
 ### 6. Datos en cliente: supabase-js + TanStack Query (persistido)
 Queries por pantalla (`today`, `month`, `achievements`) con `persistQueryClient` en `localStorage` para lectura offline. Mutaciones optimistas para check-in. Realtime: un canal por pareja escuchando `postgres_changes` en `check_ins`, `nudges` y `couple_members` filtrado por `couple_id`; cada evento hace `invalidateQueries` de la query afectada (simple; el relleno animado lo dispara el cambio de props). Router: `react-router` v7 en modo librería.
@@ -104,10 +104,9 @@ La lógica crítica está en SQL, así que la prueba va ahí: pgTAP (`supabase t
 
 ## Migration Plan
 
-Greenfield. Despliegue: 1) crear proyecto Supabase, `supabase db push`, habilitar `pg_cron` y `pg_net`, cargar secretos VAPID, `supabase functions deploy push`; 2) en Auth, plantilla de email con `{{ .Token }}` (código, no enlace) y expiración OTP 3600 s; 3) desplegar el build estático (Vercel o Cloudflare Pages) con `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY`/`VITE_VAPID_PUBLIC_KEY`. Rollback: redeploy del build anterior; migraciones solo aditivas.
+Greenfield. Despliegue: 1) crear proyecto Supabase, `supabase db push`, habilitar `pg_cron` y `pg_net`, cargar secretos VAPID, `supabase functions deploy push`; 2) en Auth, Site URL, registro público desactivado y crear las dos cuentas en el panel; 3) desplegar el build estático en Cloudflare (Worker con assets estáticos, modo SPA) con `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY`/`VITE_VAPID_PUBLIC_KEY`. Rollback: redeploy del build anterior; migraciones solo aditivas.
 
 ## Open Questions
 
-- Proveedor de hosting estático (Vercel vs Cloudflare Pages): no cambia código.
 - Textos exactos de notificaciones y del estado vacío.
 - Set definitivo de logros más allá de los 5 iniciales.

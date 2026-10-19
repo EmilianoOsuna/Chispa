@@ -6,7 +6,7 @@ import { msUntil, pad, splitMs } from '../lib/time'
 import { toast } from '../lib/toast'
 import { Flame } from '../components/Flame'
 import { Icon } from '../components/Icon'
-import { COLOR } from '../components/bits'
+import { Avatar } from '../components/bits'
 import { dangerKey, useTick } from './Today'
 
 const DONE_LABEL: Record<Streak['icon'], string> = {
@@ -84,14 +84,12 @@ export default function Danger() {
 
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center gap-3 rounded-[18px] border-2 border-navy-line bg-navy-card px-3 py-2.5">
-          <div className="flex size-[38px] flex-none items-center justify-center rounded-full font-extrabold"
-            style={{ background: COLOR[partner.color].bg, color: COLOR[partner.color].on }}>{partner.name[0]}</div>
+          <Avatar {...partner} size={38} ring="#1B2A4E" />
           <div className="flex-1 text-[15px] font-bold">{partner.name} · {partnerDone ? s.name : 'pendiente'}</div>
           {partnerDone && <span className="text-sky-pale" role="img" aria-label="Completado"><Icon name="check" size={24} stroke={3} /></span>}
         </div>
         <div className="pulso flex items-center gap-3 rounded-[18px] border-2 border-flame bg-navy-card px-3 py-2.5">
-          <div className="flex size-[38px] flex-none items-center justify-center rounded-full font-extrabold"
-            style={{ background: COLOR[me.color].bg, color: COLOR[me.color].on }}>{me.name[0]}</div>
+          <Avatar {...me} size={38} ring="#1B2A4E" />
           <div className="flex-1 text-[15px] font-bold">{me.name} · pendiente</div>
           <span className="text-flame-light" role="img" aria-label="Pendiente"><Icon name="pending" size={24} stroke={2.6} /></span>
         </div>

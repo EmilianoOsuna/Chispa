@@ -21,8 +21,21 @@ export function useCoupleRealtime(coupleId: string | undefined) {
       // DELETE no admite filtro: llega solo la llave primaria
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'check_ins' }, refresh)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'streaks', filter }, refresh)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'couple_members', filter }, () =>
-        qc.invalidateQueries({ queryKey: ['membership'] }))
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'couples', filter: `id=eq.${coupleId}` }, refresh)
+      // RLS limita a mi perfil y el de mi pareja
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, refresh)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'couple_days', filter }, refresh)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'freeze_uses', filter }, refresh)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'achievements', filter }, () => {
+        refresh()
+        toast('¡Desbloquearon un logro nuevo!')
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'couple_members', filter }, (p) => {
+        refresh()
+        qc.invalidateQueries({ queryKey: ['membership'] })
+        const t = qc.getQueryData<Today>(['today'])
+        if (t && (p.new as { user_id: string }).user_id !== t.me) toast('¡Tu pareja se unió a Chispa!')
+      })
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'nudges', filter }, (p) => {
         refresh()
         const t = qc.getQueryData<Today>(['today'])

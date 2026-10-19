@@ -29,7 +29,10 @@ async function sendTo(userId: string, payload: Payload) {
 
 Deno.serve(async (req) => {
   if (req.headers.get('x-push-secret') !== Deno.env.get('PUSH_SECRET')) return new Response('forbidden', { status: 403 })
-  const body = await req.json() as { mode: 'reminders' } | { mode: 'nudge'; nudge_id: string }
+  const body = await req.json() as
+    | { mode: 'reminders' }
+    | { mode: 'nudge'; nudge_id: string }
+    | { mode: 'joined'; couple_id: string; user_id: string }
   let sent = 0
 
   if (body.mode === 'reminders') {
@@ -41,6 +44,19 @@ Deno.serve(async (req) => {
         body: r.at_stake > 0 ? `No dejes que se apaguen ${r.at_stake} ${r.at_stake === 1 ? 'día' : 'días'} de racha.` : 'Márcala antes de la hora límite.',
         url: `/?streak=${r.streak_id}`,
         tag: `reminder-${r.streak_id}`,
+      })
+    }
+  } else if (body.mode === 'joined') {
+    const [{ data: who }, { data: others }] = await Promise.all([
+      db.from('profiles').select('name').eq('id', body.user_id).single(),
+      db.from('couple_members').select('user_id').eq('couple_id', body.couple_id).neq('user_id', body.user_id),
+    ])
+    for (const o of others ?? []) {
+      sent += await sendTo(o.user_id, {
+        title: `${who?.name ?? 'Tu pareja'} se unió a Chispa`,
+        body: 'Ya pueden mantener la llama encendida juntos.',
+        url: '/',
+        tag: 'joined',
       })
     }
   } else {

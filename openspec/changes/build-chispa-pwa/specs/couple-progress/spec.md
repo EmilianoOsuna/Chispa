@@ -1,6 +1,6 @@
 ## Purpose
 
-Cubre la pantalla Nosotros: el progreso compartido de la pareja con cumplimiento mensual, calendario de días perfectos y logros.
+Cubre las pantallas Nosotros (cumplimiento mensual y calendario de días perfectos) y Logros (insignias y progreso a la siguiente meta).
 
 ## ADDED Requirements
 
@@ -26,7 +26,7 @@ El sistema SHALL mostrar el mes en curso en cuadrícula L–D con cada día colo
 - **THEN** ese día aparece naranja con etiqueta "12 de octubre, solo Emi cumplió todo"
 
 ### Requirement: Logros
-El sistema SHALL otorgar logros de pareja al alcanzar hitos y mostrarlos como insignias (desbloqueadas a color, la siguiente con borde punteado) junto con "Siguiente: N días · faltan X". Hitos iniciales: Primera semana (7 días), 30 noches temprano (30 días en una racha de Dormir), Racha salvada (primer protector usado o toque seguido de check-in), Medio centenar (50), Centenario (100). Un logro desbloqueado no se pierde aunque la racha se reinicie.
+El sistema SHALL otorgar logros de pareja al alcanzar hitos y mostrarlos en una pantalla propia (pestaña Logros, ruta `/logros`): tarjeta con la siguiente meta, barra de progreso animada y protectores disponibles, y una tarjeta por logro (a color con fecha si está desbloqueado, punteada si no) con su descripción. Hitos iniciales: Primera semana (7 días), 30 noches temprano (30 días en una racha de Dormir), Racha salvada (primer protector usado o toque seguido de check-in), Medio centenar (50), Centenario (100). Un logro desbloqueado no se pierde aunque la racha se reinicie.
 
 #### Scenario: Desbloquear
 - **WHEN** la racha en pareja llega a 50

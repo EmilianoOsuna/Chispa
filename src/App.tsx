@@ -17,6 +17,7 @@ import StreakForm from './screens/StreakForm'
 import Danger from './screens/Danger'
 import Celebration from './screens/Celebration'
 import Us from './screens/Us'
+import Achievements from './screens/Achievements'
 import Profile from './screens/Profile'
 
 const WEEK = 1000 * 60 * 60 * 24 * 7
@@ -54,9 +55,8 @@ function Shell() {
   if (!session) return <Login />
   if (membership.isPending) return <Splash />
   const m = membership.data
-  if (!m?.profile || !m.member || !m.member.couples?.paired_at) {
-    return <Onboarding userId={session.user.id} profile={m?.profile ?? null} member={m?.member ?? null} />
-  }
+  // no espera a la pareja: con ser miembro ya se usa la app
+  if (!m?.profile || !m.member) return <Onboarding userId={session.user.id} profile={m?.profile ?? null} />
   return <Main coupleId={m.member.couple_id} />
 }
 
@@ -76,6 +76,7 @@ function Main({ coupleId }: { coupleId: string }) {
           <Routes location={location}>
             <Route path="/" element={<Today />} />
             <Route path="/nosotros" element={<Us />} />
+            <Route path="/logros" element={<Achievements />} />
             <Route path="/perfil" element={<Profile />} />
             <Route path="/racha/nueva" element={<StreakForm />} />
             <Route path="/racha/:id/editar" element={<StreakForm />} />

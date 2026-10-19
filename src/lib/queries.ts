@@ -3,12 +3,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './supabase'
 import { addDays, isoDow, msUntil } from './time'
+import type { AvatarStyle } from './avatar'
 
 export type Color = 'flame' | 'sky'
 export type Icon = 'agua' | 'ejercicio' | 'dormir' | 'leer' | 'meditar' | 'comer'
 export type Frequency = 'daily' | 'weekdays' | 'weekly'
 export type Mode = 'together' | 'solo'
-export type Member = { user_id: string; name: string; color: Color }
+export type Member = { user_id: string; name: string; color: Color; avatar_style: AvatarStyle | null; avatar_seed: string | null }
 
 export type Streak = {
   id: string; name: string; icon: Icon; frequency: Frequency; weekly_target: number | null; mode: Mode
@@ -54,7 +55,7 @@ const MESSAGES: Record<string, string> = {
 }
 export function errorMessage(e: unknown) {
   const raw = e instanceof Error ? e.message : typeof e === 'object' && e && 'message' in e ? String(e.message) : String(e)
-  return MESSAGES[raw] ?? (raw.includes('Token has expired or is invalid') ? 'Código incorrecto o caducado' : 'Algo salió mal, intenta de nuevo')
+  return MESSAGES[raw] ?? 'Algo salió mal, intenta de nuevo'
 }
 
 function online() {
@@ -119,7 +120,7 @@ export function periodDone(s: Streak, userId: string) {
   return s.frequency === 'weekly' ? (s.week_count[userId] ?? 0) >= (s.weekly_target ?? 1) : !!s.done[userId]
 }
 export function pairDone(s: Streak, t: Today) {
-  return t.members.length === 2 && t.members.every((m) => periodDone(s, m.user_id))
+  return t.members.every((m) => periodDone(s, m.user_id)) // con un solo miembro, basta él
 }
 /** Conteo mostrado: contador cerrado + el periodo en curso si ya se cumplió y aún no se cierra. */
 export function streakCount(s: Streak, t: Today, userId: string) {
