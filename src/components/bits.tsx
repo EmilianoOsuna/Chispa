@@ -55,7 +55,7 @@ export function PersonDot({ color, done, label, onToggle, disabled }: {
         initial={false} animate={{ scale: done ? 1 : 0, opacity: done ? 1 : 0 }}
         transition={{ type: 'spring', stiffness: 520, damping: 18 }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={c.on} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <motion.path d="M5 12l5 5L20 7" initial={false} animate={{ pathLength: done ? 1 : 0 }} transition={{ duration: 0.25, delay: done ? 0.08 : 0 }} />
+          <motion.path d="M20 6 9 17l-5-5" initial={false} animate={{ pathLength: done ? 1 : 0 }} transition={{ duration: 0.25, delay: done ? 0.08 : 0 }} />
         </svg>
       </motion.span>
     </span>

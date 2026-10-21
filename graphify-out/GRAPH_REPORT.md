@@ -1,13 +1,18 @@
-# Graph Report - Chispa  (2026-10-19)
+# Graph Report - Chispa  (2026-10-20)
 
 ## Corpus Check
-- 88 files · ~86,300 words
+- 112 files · ~103,056 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 565 nodes · 782 edges · 68 communities (63 shown, 5 thin omitted)
+- 740 nodes · 970 edges · 88 communities (76 shown, 12 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `509ca9cb`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - queries.ts
@@ -42,51 +47,69 @@
 - tsconfig.json
 - vite-env.d.ts
 - 20261019000004_cron_realtime.sql
+- Requirement: Día de cada persona y cierre a medianoche
+- Requirement: Notificaciones push
+- source-command-opsx-explore
+- Decisions
+- MODIFIED Requirements
+- Requirement: Zona horaria automática por persona
+- proposal.md
+- proposal.md
+- 20261019000007_solo_start.sql
+- design.md
+- tasks.md
+- source-command-opsx-apply
+- source-command-opsx-archive
+- source-command-opsx-propose
+- source-command-opsx-sync
+- source-command-opsx-update
+- 20261019000008_avatars_tz.sql
+- tasks.md
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 18 edges
-2. `react` - 15 edges
-3. `Today()` - 15 edges
-4. `compilerOptions` - 15 edges
-5. `useToday()` - 14 edges
+2. `react` - 17 edges
+3. `useToday()` - 16 edges
+4. `Today()` - 15 edges
+5. `compilerOptions` - 15 edges
 6. `Decisions` - 14 edges
-7. `periodDone()` - 12 edges
-8. `toast` - 12 edges
-9. `Icon()` - 11 edges
-10. `msUntil()` - 11 edges
+7. `Icon()` - 13 edges
+8. `periodDone()` - 12 edges
+9. `msUntil()` - 11 edges
+10. `toast` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Main()` --calls--> `useCoupleRealtime()`  [EXTRACTED]
-  src/App.tsx → src/lib/realtime.ts
+- `Achievements()` --calls--> `useToday()`  [EXTRACTED]
+  src/screens/Achievements.tsx → src/lib/queries.ts
 - `Profile()` --calls--> `useToday()`  [EXTRACTED]
   src/screens/Profile.tsx → src/lib/queries.ts
-- `StreakForm()` --calls--> `useToday()`  [EXTRACTED]
-  src/screens/StreakForm.tsx → src/lib/queries.ts
 - `completesPair()` --calls--> `periodDone()`  [EXTRACTED]
   src/screens/Today.tsx → src/lib/queries.ts
+- `Achievements()` --calls--> `summarize()`  [EXTRACTED]
+  src/screens/Achievements.tsx → src/lib/queries.ts
 - `Shell()` --calls--> `useMembership()`  [EXTRACTED]
   src/App.tsx → src/lib/queries.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (68 total, 5 thin omitted)
+## Communities (88 total, 12 thin omitted)
 
 ### Community 0 - "queries.ts"
-Cohesion: 0.09
-Nodes (59): COLOR, CONFETTI, Count(), group(), PersonDot(), Week(), WeekCell, weekCells() (+51 more)
+Cohesion: 0.08
+Nodes (63): react, PersonDot(), Week(), weekCells(), ANIM, Flame(), LABEL, Mood (+55 more)
 
 ### Community 1 - "App.tsx"
-Cohesion: 0.09
-Nodes (33): react, Main(), OfflineBanner(), persister, queryClient, Shell(), Toasts(), useOnline() (+25 more)
+Cohesion: 0.12
+Nodes (19): Main(), OfflineBanner(), persister, queryClient, Shell(), Toasts(), useOnline(), TabBar() (+11 more)
 
 ### Community 2 - "dependencies"
-Cohesion: 0.06
-Nodes (30): @fontsource-variable/bricolage-grotesque, @fontsource-variable/figtree, motion, dependencies, @fontsource-variable/bricolage-grotesque, @fontsource-variable/figtree, motion, react (+22 more)
+Cohesion: 0.05
+Nodes (39): @dicebear/adventurer, @dicebear/big-smile, @dicebear/core, @dicebear/fun-emoji, @dicebear/lorelei, @dicebear/notionists, @dicebear/thumbs, @fontsource-variable/bricolage-grotesque (+31 more)
 
 ### Community 3 - "devDependencies"
-Cohesion: 0.06
-Nodes (31): oxlint, devDependencies, oxlint, supabase, tailwindcss, @tailwindcss/vite, @types/node, @types/react (+23 more)
+Cohesion: 0.04
+Nodes (45): @cloudflare/vite-plugin, oxlint, devDependencies, @cloudflare/vite-plugin, oxlint, supabase, tailwindcss, @tailwindcss/vite (+37 more)
 
 ### Community 4 - "compilerOptions"
 Cohesion: 0.07
@@ -105,8 +128,8 @@ Cohesion: 0.11
 Nodes (5): check_in_guard, check_in_saved, public.check_in_saved(), public.couple_sparks, streak_after_insert
 
 ### Community 8 - "ADDED Requirements"
-Cohesion: 0.11
-Nodes (17): ADDED Requirements, Purpose, Requirement: Aislamiento de datos por pareja, Requirement: Crear pareja e invitar, Requirement: Inicio de sesión por correo y código, Requirement: Perfil con nombre y color, Requirement: Perfil mínimo, Requirement: Unirse a una pareja (+9 more)
+Cohesion: 0.07
+Nodes (26): ADDED Requirements, Purpose, Requirement: Aislamiento de datos por pareja, Requirement: Avatar personalizable, Requirement: Crear pareja e invitar, Requirement: Inicio de sesión con correo y contraseña, Requirement: Perfil con nombre y color, Requirement: Perfil mínimo (+18 more)
 
 ### Community 9 - "ADDED Requirements"
 Cohesion: 0.11
@@ -121,8 +144,8 @@ Cohesion: 0.12
 Nodes (16): ADDED Requirements, Purpose, Requirement: Notificaciones push, Requirement: Pantalla Racha en peligro, Requirement: Protector de racha, Requirement: Toques, Scenario: Abrir la app en peligro, Scenario: Cerrar (+8 more)
 
 ### Community 12 - "StreakForm.tsx"
-Cohesion: 0.15
-Nodes (14): IconName, PATHS, STREAK_ICONS, TabBar(), TABS, Frequency, Icon, Mode (+6 more)
+Cohesion: 0.09
+Nodes (35): Avatar(), AvatarProps, COLOR, CONFETTI, Count(), group(), WeekCell, Icon() (+27 more)
 
 ### Community 13 - "20261019000002_rls.sql"
 Cohesion: 0.12
@@ -180,25 +203,69 @@ Nodes (7): 1. Proyecto base, 2. Base de datos, 3. Shell, auth y emparejamiento, 
 Cohesion: 0.29
 Nodes (6): Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
 
+### Community 68 - "Requirement: Día de cada persona y cierre a medianoche"
+Cohesion: 0.13
+Nodes (14): ADDED Requirements, MODIFIED Requirements, REMOVED Requirements, Requirement: Crear racha, Requirement: Día de cada persona y cierre a medianoche, Requirement: Editar y archivar, Requirement: Hora límite y cierre del día, Scenario: Archivar (+6 more)
+
+### Community 69 - "Requirement: Notificaciones push"
+Cohesion: 0.14
+Nodes (13): MODIFIED Requirements, Requirement: Notificaciones push, Requirement: Pantalla Racha en peligro, Requirement: Protector de racha, Scenario: Abrir la app en peligro, Scenario: Cerrar, Scenario: iOS no instalada, Scenario: Marcar desde peligro (+5 more)
+
+### Community 70 - "source-command-opsx-explore"
+Cohesion: 0.15
+Nodes (12): Check for context, Command Template, Ending Discovery, Guardrails, OpenSpec Awareness, Planning a Change, source-command-opsx-explore, The Stance (+4 more)
+
+### Community 71 - "Decisions"
+Cohesion: 0.15
+Nodes (12): Cierre: `d < least(today(flame), today(sky))`, Context, `deadline` → `reminder_time`, Decisions, Front, Goals / Non-Goals, Guard de check-in, Helper `user_today(uid) returns date` (+4 more)
+
+### Community 72 - "MODIFIED Requirements"
+Cohesion: 0.17
+Nodes (11): MODIFIED Requirements, Requirement: Estado por persona en cada racha, Requirement: Marcar check-in, Requirement: Pantalla Hoy, Scenario: Deshacer después de medianoche, Scenario: Día con rachas pendientes, Scenario: Marcar, Scenario: Pareja adelantada (+3 more)
+
+### Community 73 - "Requirement: Zona horaria automática por persona"
+Cohesion: 0.25
+Nodes (7): ADDED Requirements, REMOVED Requirements, Requirement: Zona horaria automática por persona, Requirement: Zona horaria por GPS, Scenario: Primera vez, Scenario: Viaje, Scenario: Viaje al oeste tras el cierre
+
+### Community 74 - "proposal.md"
+Cohesion: 0.29
+Nodes (6): Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
+
+### Community 75 - "proposal.md"
+Cohesion: 0.29
+Nodes (6): Capabilities, Impact, Modified Capabilities, New Capabilities, What Changes, Why
+
+### Community 76 - "20261019000007_solo_start.sql"
+Cohesion: 0.33
+Nodes (3): partner_joined_push, public.couples, public.partner_joined_push()
+
+### Community 77 - "design.md"
+Cohesion: 0.40
+Nodes (4): Context, Decisions, Goals / Non-Goals, Risks / Trade-offs
+
+### Community 78 - "tasks.md"
+Cohesion: 0.50
+Nodes (3): 1. Base de datos, 2. Front, 3. Integración
+
 ## Knowledge Gaps
-- **280 isolated node(s):** `$schema`, `typescript`, `oxc`, `react/rules-of-hooks`, `warn` (+275 more)
+- **375 isolated node(s):** `$schema`, `typescript`, `oxc`, `react/rules-of-hooks`, `warn` (+370 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `App.tsx` to `plugins`, `queries.ts`, `StreakForm.tsx`?**
+- **Why does `dependencies` connect `dependencies` to `devDependencies`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `devDependencies` connect `devDependencies` to `dependencies`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `plugins` connect `plugins` to `App.tsx`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `react` connect `queries.ts` to `plugins`, `App.tsx`, `StreakForm.tsx`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `$schema`, `typescript`, `oxc` to the rest of the system?**
-  _280 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _375 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `queries.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.09394205443371378 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07925407925407925 - nodes in this community are weakly interconnected._
 - **Should `App.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.09468599033816426 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12333333333333334 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
+- **Should `devDependencies` be split into smaller, more focused modules?**
+  _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
