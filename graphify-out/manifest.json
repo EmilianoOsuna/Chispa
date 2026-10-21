@@ -399,56 +399,6 @@
     "ast_hash": "01c80589fbb756a22278e8b8ad64f9df",
     "semantic_hash": ""
   },
-  "openspec/changes/build-chispa-pwa/.openspec.yaml": {
-    "mtime": 1792394078.3749561,
-    "ast_hash": "55942143d1cd3b4278fd3873c5f00440",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/design.md": {
-    "mtime": 1792399353.3423264,
-    "ast_hash": "43411c7fc4430da5183112ee3986c417",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/proposal.md": {
-    "mtime": 1792399353.343273,
-    "ast_hash": "221ddbff8c1c83c884ca51aad13d976c",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/couple-pairing/spec.md": {
-    "mtime": 1792410380.47018,
-    "ast_hash": "cdcf644d1d8ca8b737f1a649c4b840e9",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/couple-progress/spec.md": {
-    "mtime": 1792410380.4699798,
-    "ast_hash": "78740c67b078d92b8feb695ca867a5b3",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/daily-check-in/spec.md": {
-    "mtime": 1792399705.1729896,
-    "ast_hash": "afcaab630cf50af8e5efc25a4cea2237",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/pwa-shell/spec.md": {
-    "mtime": 1792410380.4703805,
-    "ast_hash": "3057a946a5aef56796ec85c79dd7313f",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/streak-alerts/spec.md": {
-    "mtime": 1792399705.1723316,
-    "ast_hash": "5efa95b09d04f2377365f1364c9a0524",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/specs/streaks/spec.md": {
-    "mtime": 1792394303.0158632,
-    "ast_hash": "b6365bc05376197734ee7027a1f87d16",
-    "semantic_hash": ""
-  },
-  "openspec/changes/build-chispa-pwa/tasks.md": {
-    "mtime": 1792399705.1726358,
-    "ast_hash": "3b6ef76a03ce42eda9be19775ae149ac",
-    "semantic_hash": ""
-  },
   "openspec/config.yaml": {
     "mtime": 1792393934.6897528,
     "ast_hash": "a88f7d80935e1a432dc9b5affe49eb27",
@@ -559,46 +509,6 @@
     "ast_hash": "dc7b76e6f7dec32eeee521749bf79e89",
     "semantic_hash": ""
   },
-  "openspec/changes/per-user-midnight-timezone/.openspec.yaml": {
-    "mtime": 1792553952.9578276,
-    "ast_hash": "328aa401f592c63f23aed934ffffcfb1",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/design.md": {
-    "mtime": 1792559904.884107,
-    "ast_hash": "812fffe7e015af369beef970007ed269",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/proposal.md": {
-    "mtime": 1792554045.169584,
-    "ast_hash": "24e882158a438ab2483a77a65322b4d0",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/specs/couple-pairing/spec.md": {
-    "mtime": 1792554045.1732767,
-    "ast_hash": "313cff36f7af5d8a02071b7cf83b6c0b",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/specs/daily-check-in/spec.md": {
-    "mtime": 1792554045.1715841,
-    "ast_hash": "cc2daa757a52b89984a798bf4c59cbf4",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/specs/streak-alerts/spec.md": {
-    "mtime": 1792554045.1726272,
-    "ast_hash": "cc63e874a0abe1ed23324a3b81ffbdd3",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/specs/streaks/spec.md": {
-    "mtime": 1792554045.170584,
-    "ast_hash": "3ecf0ea938f07004cebdd62346bb9473",
-    "semantic_hash": ""
-  },
-  "openspec/changes/per-user-midnight-timezone/tasks.md": {
-    "mtime": 1792559904.8842897,
-    "ast_hash": "283d28072d04a3a4c61db979131c2f91",
-    "semantic_hash": ""
-  },
   "supabase/migrations/20261020000001_per_user_tz.sql": {
     "mtime": 1792559637.969065,
     "ast_hash": "a31f2d747d8c7b3ff3491a35e54e9129",
@@ -622,6 +532,126 @@
   "openspec/changes/archive/2026-10-20-lucide-icons/tasks.md": {
     "mtime": 1792559456.6016343,
     "ast_hash": "a8926ae7bb4e7229cf403cf36961fb24",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/.openspec.yaml": {
+    "mtime": 1792394078.3749561,
+    "ast_hash": "55942143d1cd3b4278fd3873c5f00440",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/design.md": {
+    "mtime": 1792399353.3423264,
+    "ast_hash": "43411c7fc4430da5183112ee3986c417",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/proposal.md": {
+    "mtime": 1792399353.343273,
+    "ast_hash": "221ddbff8c1c83c884ca51aad13d976c",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/couple-pairing/spec.md": {
+    "mtime": 1792410380.47018,
+    "ast_hash": "cdcf644d1d8ca8b737f1a649c4b840e9",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/couple-progress/spec.md": {
+    "mtime": 1792410380.4699798,
+    "ast_hash": "78740c67b078d92b8feb695ca867a5b3",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/daily-check-in/spec.md": {
+    "mtime": 1792399705.1729896,
+    "ast_hash": "afcaab630cf50af8e5efc25a4cea2237",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/pwa-shell/spec.md": {
+    "mtime": 1792410380.4703805,
+    "ast_hash": "3057a946a5aef56796ec85c79dd7313f",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/streak-alerts/spec.md": {
+    "mtime": 1792399705.1723316,
+    "ast_hash": "5efa95b09d04f2377365f1364c9a0524",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/specs/streaks/spec.md": {
+    "mtime": 1792394303.0158632,
+    "ast_hash": "b6365bc05376197734ee7027a1f87d16",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-build-chispa-pwa/tasks.md": {
+    "mtime": 1792399705.1726358,
+    "ast_hash": "3b6ef76a03ce42eda9be19775ae149ac",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/.openspec.yaml": {
+    "mtime": 1792553952.9578276,
+    "ast_hash": "328aa401f592c63f23aed934ffffcfb1",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/design.md": {
+    "mtime": 1792559904.884107,
+    "ast_hash": "812fffe7e015af369beef970007ed269",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/proposal.md": {
+    "mtime": 1792554045.169584,
+    "ast_hash": "24e882158a438ab2483a77a65322b4d0",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/specs/couple-pairing/spec.md": {
+    "mtime": 1792554045.1732767,
+    "ast_hash": "313cff36f7af5d8a02071b7cf83b6c0b",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/specs/daily-check-in/spec.md": {
+    "mtime": 1792554045.1715841,
+    "ast_hash": "cc2daa757a52b89984a798bf4c59cbf4",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/specs/streak-alerts/spec.md": {
+    "mtime": 1792554045.1726272,
+    "ast_hash": "cc63e874a0abe1ed23324a3b81ffbdd3",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/specs/streaks/spec.md": {
+    "mtime": 1792554045.170584,
+    "ast_hash": "3ecf0ea938f07004cebdd62346bb9473",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-per-user-midnight-timezone/tasks.md": {
+    "mtime": 1792559904.8842897,
+    "ast_hash": "283d28072d04a3a4c61db979131c2f91",
+    "semantic_hash": ""
+  },
+  "openspec/specs/couple-pairing/spec.md": {
+    "mtime": 1792560699.5503745,
+    "ast_hash": "7cbfde43362a040e1d39895d5a0d2cde",
+    "semantic_hash": ""
+  },
+  "openspec/specs/couple-progress/spec.md": {
+    "mtime": 1792560695.8021111,
+    "ast_hash": "28d82ada0959b95e076be4af5c70dc28",
+    "semantic_hash": ""
+  },
+  "openspec/specs/daily-check-in/spec.md": {
+    "mtime": 1792560699.5513744,
+    "ast_hash": "ffd077c8475d00eb2ee68f7ab43dde25",
+    "semantic_hash": ""
+  },
+  "openspec/specs/pwa-shell/spec.md": {
+    "mtime": 1792560695.803524,
+    "ast_hash": "390d0370a1b2ce563e7b109db8e18cd1",
+    "semantic_hash": ""
+  },
+  "openspec/specs/streak-alerts/spec.md": {
+    "mtime": 1792560699.5513744,
+    "ast_hash": "993c353cf5cbc1e665242172529139a7",
+    "semantic_hash": ""
+  },
+  "openspec/specs/streaks/spec.md": {
+    "mtime": 1792560699.5513744,
+    "ast_hash": "c5f15ca977592ca9e95a2b709c33b7d9",
     "semantic_hash": ""
   }
 }
