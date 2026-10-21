@@ -20,6 +20,7 @@ function subtitle(s: Streak, t: Today) {
   const mine = periodDone(s, t.me)
   const theirs = partner ? periodDone(s, partner.user_id) : false
   if (theirs && !mine) return `${head} · ${partner!.name} ya ${VERB[s.icon]}`
+  if (partner && partner.today > t.today) return `${head} · ${partner.name} ya va en mañana`
   if (mine && partner) return `${head} · falta ${partner.name}`
   if (s.frequency === 'weekly') return `${head} · ${s.week_count[t.me] ?? 0}/${s.weekly_target} esta semana`
   if (s.icon === 'dormir') return `${head} · se marca esta noche`
@@ -55,7 +56,8 @@ export function StreakRow({ s, t, index, onToggle, onOpen, onNudge, busy }: {
         {t.members.map((m) => { // el servidor los ordena: flame, sky
           const done = periodDone(s, m.user_id)
           const mine = m.user_id === t.me
-          const label = `${mine ? 'Tú' : m.name}: ${done ? 'completó' : 'pendiente'}`
+          const ahead = !mine && m.today > t.today ? ' (ya va en mañana)' : ''
+          const label = `${mine ? 'Tú' : m.name}: ${done ? 'completó' : 'pendiente'}${ahead}`
           return (
             <PersonDot key={m.user_id} color={m.color} done={done} label={label}
               onToggle={mine && s.due_today ? onToggle : undefined} disabled={busy} />

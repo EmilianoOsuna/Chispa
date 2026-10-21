@@ -15,7 +15,6 @@ export default function Profile() {
   const [name, setName] = useState(me?.name ?? '')
   const [push, setPush] = useState(false)
   const [busy, setBusy] = useState(false)
-  const [locating, setLocating] = useState(false)
   useEffect(() => { currentSubscription().then((s) => setPush(!!s)) }, [])
   useEffect(() => { if (me) setName(me.name) }, [me])
   if (!t || !me) return null
@@ -45,23 +44,6 @@ export default function Profile() {
     const { error } = await supabase.from('profiles').update({ avatar_style: style, avatar_seed: seed }).eq('id', t!.me)
     if (error) return toast(errorMessage(error))
     qc.invalidateQueries({ queryKey: ['today'] })
-  }
-
-  function detectTimezone() {
-    if (!('geolocation' in navigator)) return toast('Este dispositivo no tiene GPS disponible')
-    setLocating(true)
-    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-      try {
-        const { default: tzlookup } = await import('@photostructure/tz-lookup')
-        const tz = tzlookup(coords.latitude, coords.longitude)
-        const { error } = await supabase.rpc('set_timezone', { p_timezone: tz })
-        if (error) throw error
-        toast(`Zona horaria: ${tz.replace('America/', '').replace('_', ' ')}`)
-        qc.invalidateQueries({ queryKey: ['today'] })
-        qc.invalidateQueries({ queryKey: ['month'] })
-      } catch (e) { toast(errorMessage(e)) }
-      setLocating(false)
-    }, () => { setLocating(false); toast('No pudimos leer tu ubicación') }, { enableHighAccuracy: false, timeout: 15000 })
   }
 
   async function signOut() {
@@ -143,12 +125,8 @@ export default function Profile() {
         <div className="flex items-center justify-between gap-3 border-t-2 border-line-soft px-3.5 py-3 text-[15px] font-bold">
           <span className="flex flex-col">
             Zona horaria
-            <span className="text-[13px] font-semibold text-muted">{t.couple.timezone.replace(/_/g, ' ')}</span>
+            <span className="text-[13px] font-semibold text-muted">{t.timezone.replace(/_/g, ' ')}</span>
           </span>
-          <button type="button" onClick={detectTimezone} disabled={locating}
-            className="flex min-h-11 items-center gap-1.5 rounded-xl bg-line-soft px-3 text-sm font-extrabold text-sky-ink disabled:opacity-60">
-            {locating ? 'Buscando…' : 'Detectar con GPS'}
-          </button>
         </div>
       </div>
 

@@ -20,8 +20,8 @@ export default function StreakForm() {
   const existing = id ? t?.streaks.find((s) => s.id === id) : undefined
   const [form, setForm] = useState<StreakInput>(() => existing
     ? { name: existing.name, icon: existing.icon, frequency: existing.frequency, weekly_target: existing.weekly_target,
-        mode: existing.mode, deadline: hhmm(existing.next_deadline), reminder: existing.reminder }
-    : { name: '', icon: 'agua', frequency: 'daily', weekly_target: null, mode: 'together', deadline: '23:30', reminder: true })
+        mode: existing.mode, reminder_time: hhmm(existing.reminder_time), reminder: existing.reminder }
+    : { name: '', icon: 'agua', frequency: 'daily', weekly_target: null, mode: 'together', reminder_time: '21:30', reminder: true })
   const [confirmArchive, setConfirmArchive] = useState(false)
   const [touched, setTouched] = useState(false)
 
@@ -36,7 +36,6 @@ export default function StreakForm() {
     if (nameMissing) return
     save.mutate({ id, input: form }, {
       onSuccess: () => {
-        if (editing && existing && form.deadline !== hhmm(existing.deadline)) toast(`La nueva hora límite aplica desde mañana`)
         navigate('/', { replace: true })
       },
       onError: (err) => toast(errorMessage(err)),
@@ -140,12 +139,12 @@ export default function StreakForm() {
 
       <div className="flex flex-col rounded-[18px] border-2 border-line bg-white">
         <div className="flex items-center justify-between border-b-2 border-line-soft px-3.5 py-3">
-          <label htmlFor="limite" className="text-[15px] font-bold">Hora límite</label>
-          <input id="limite" type="time" required value={form.deadline} onChange={(e) => set('deadline', e.target.value)}
+          <label htmlFor="recordatorio" className="text-[15px] font-bold">Hora del recordatorio</label>
+          <input id="recordatorio" type="time" required value={form.reminder_time} onChange={(e) => set('reminder_time', e.target.value)}
             className="min-h-11 rounded-[10px] border-none bg-line-soft px-2.5 text-[15px] font-extrabold text-ink" />
         </div>
         <div className="flex items-center justify-between px-3.5 py-3">
-          <span id="recordar-label" className="text-[15px] font-bold">Recordarnos 2 h antes</span>
+          <span id="recordar-label" className="text-[15px] font-bold">Recordarnos</span>
           <button type="button" role="switch" aria-checked={form.reminder} aria-labelledby="recordar-label"
             onClick={() => set('reminder', !form.reminder)}
             className={`flex h-[30px] w-[52px] rounded-full p-[3px] transition-colors ${form.reminder ? 'justify-end bg-sky' : 'justify-start bg-toggle'}`}>

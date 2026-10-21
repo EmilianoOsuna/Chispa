@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
+import { deviceTimezone } from '../lib/time'
 import { errorMessage } from '../lib/queries'
 import { Flame } from '../components/Flame'
 import { Icon } from '../components/Icon'
@@ -28,9 +29,9 @@ export default function Onboarding({ userId, profile }: Props) {
 
   const saveName = (e: FormEvent) => {
     e.preventDefault()
-    run(() => supabase.from('profiles').upsert({ id: userId, name: name.trim() }))
+    run(() => supabase.from('profiles').upsert({ id: userId, name: name.trim(), timezone: deviceTimezone() }))
   }
-  const create = () => run(() => supabase.rpc('create_couple', { p_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone }))
+  const create = () => run(() => supabase.rpc('create_couple'))
   const join = (e: FormEvent) => { e.preventDefault(); run(() => supabase.rpc('join_couple', { p_code: code })) }
 
   const step = profile ? mode : 'name'

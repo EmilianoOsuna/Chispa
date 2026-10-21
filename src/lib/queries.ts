@@ -2,27 +2,29 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './supabase'
-import { addDays, isoDow, msUntil } from './time'
+import { addDays, deviceTimezone, isoDow, msUntilMidnight } from './time'
 import type { AvatarStyle } from './avatar'
 
 export type Color = 'flame' | 'sky'
 export type Icon = 'agua' | 'ejercicio' | 'dormir' | 'leer' | 'meditar' | 'comer'
 export type Frequency = 'daily' | 'weekdays' | 'weekly'
 export type Mode = 'together' | 'solo'
-export type Member = { user_id: string; name: string; color: Color; avatar_style: AvatarStyle | null; avatar_seed: string | null }
+export type Member = { user_id: string; name: string; color: Color; avatar_style: AvatarStyle | null; avatar_seed: string | null; today: string }
 
 export type Streak = {
   id: string; name: string; icon: Icon; frequency: Frequency; weekly_target: number | null; mode: Mode
-  reminder: boolean; deadline: string; next_deadline: string; due_today: boolean; closed_through: string
+  reminder: boolean; reminder_time: string; due_today: boolean; closed_through: string
   protected: boolean
+  /** Ayer, si sigue abierto porque voy adelantado a mi pareja. */
+  prev: { due: boolean; protected: boolean; done: Record<string, boolean> } | null
   done: Record<string, boolean>
   week_count: Record<string, number>
   counters: Record<string, { current: number; best: number }>
 }
 
 export type Today = {
-  me: string; now: string; today: string
-  couple: { id: string; invite_code: string; timezone: string; freezes: number; best_streak: number; paired_at: string | null }
+  me: string; now: string; today: string; timezone: string
+  couple: { id: string; invite_code: string; freezes: number; best_streak: number; paired_at: string | null }
   members: Member[]
   closed_streak: number
   week: { date: string; state: DayState }[]
@@ -95,6 +97,21 @@ export function useMembership(userId: string | undefined) {
   })
 }
 
+/** El día de cada quien cierra a su medianoche: la zona sale del dispositivo, como en Duolingo. */
+export function useTimezoneSync() {
+  const { data: t } = useToday()
+  const qc = useQueryClient()
+  useEffect(() => {
+    const tz = deviceTimezone()
+    if (!t || t.timezone === tz) return
+    supabase.from('profiles').update({ timezone: tz }).eq('id', t.me).then(({ error }) => {
+      if (error) return
+      qc.invalidateQueries({ queryKey: ['today'] })
+      qc.invalidateQueries({ queryKey: ['month'] })
+    })
+  }, [t, qc])
+}
+
 // ---------------------------------------------------------------- lecturas
 
 export const useToday = () => useQuery({ queryKey: ['today'], queryFn: () => rpc<Today>('today_state') })
@@ -122,24 +139,35 @@ export function periodDone(s: Streak, userId: string) {
 export function pairDone(s: Streak, t: Today) {
   return t.members.every((m) => periodDone(s, m.user_id)) // con un solo miembro, basta él
 }
-/** Conteo mostrado: contador cerrado + el periodo en curso si ya se cumplió y aún no se cierra. */
+/** Ayer aún abierto (voy adelantado): null = no cuenta, true = suma, false = rompe. Sin userId: ambos. */
+function prevOk(s: Streak, userId?: string) {
+  const p = s.prev
+  if (!p?.due) return null
+  if (p.protected) return true
+  return s.mode === 'together' || !userId ? Object.values(p.done).every(Boolean) : !!p.done[userId]
+}
+
+/** Conteo mostrado: contador cerrado + ayer si sigue abierto + el periodo en curso si ya se cumplió y aún no se cierra. */
 export function streakCount(s: Streak, t: Today, userId: string) {
   const end = s.frequency === 'weekly' ? sundayOf(t.today) : t.today
   const open = s.closed_through < end
   const ok = s.protected || (s.mode === 'together' ? pairDone(s, t) : periodDone(s, userId))
-  return (s.counters[userId]?.current ?? 0) + (open && ok ? 1 : 0)
+  const prev = prevOk(s, userId)
+  const base = prev === false ? 0 : (s.counters[userId]?.current ?? 0) + (prev ? 1 : 0)
+  return base + (open && ok ? 1 : 0)
 }
 
 export function summarize(t: Today) {
   const required = t.streaks.filter((s) => s.due_today && s.frequency !== 'weekly')
   const pending = required.filter((s) => !(s.protected || pairDone(s, t)))
   const todayPerfect = required.length > 0 && pending.length === 0
-  const coupleStreak = t.closed_streak + (todayPerfect ? 1 : 0)
-  const deadlines = pending.map((s) => msUntil(s.deadline, t.couple.timezone)).filter((ms) => ms > 0)
+  const prevDue = t.streaks.filter((s) => s.prev?.due)
+  const base = !prevDue.length ? t.closed_streak : prevDue.every((s) => prevOk(s)) ? t.closed_streak + 1 : 0
+  const coupleStreak = base + (todayPerfect ? 1 : 0)
   return {
     required, pending, todayPerfect, coupleStreak,
     best: Math.max(t.couple.best_streak, coupleStreak),
-    msToClose: deadlines.length ? Math.min(...deadlines) : 0,
+    msToClose: pending.length ? msUntilMidnight(t.timezone) : 0,
     me: t.members.find((m) => m.user_id === t.me),
     partner: t.members.find((m) => m.user_id !== t.me),
   }
@@ -152,8 +180,7 @@ export function dangerStreak(t: Today) {
   return t.streaks.find((s) => {
     if (s.mode !== 'together' || !s.due_today || s.protected) return false
     if (!periodDone(s, partner.user_id) || periodDone(s, t.me)) return false
-    const ms = msUntil(s.deadline, t.couple.timezone)
-    return ms > 0 && ms <= 2 * 3600 * 1000
+    return msUntilMidnight(t.timezone) <= 2 * 3600 * 1000
   })
 }
 
@@ -194,7 +221,7 @@ export function useCheckIn() {
   })
 }
 
-export type StreakInput = { name: string; icon: Icon; frequency: Frequency; weekly_target: number | null; mode: Mode; deadline: string; reminder: boolean }
+export type StreakInput = { name: string; icon: Icon; frequency: Frequency; weekly_target: number | null; mode: Mode; reminder_time: string; reminder: boolean }
 
 export function useSaveStreak() {
   const qc = useQueryClient()
@@ -203,7 +230,7 @@ export function useSaveStreak() {
       online()
       const t = qc.getQueryData<Today>(['today'])!
       const { error } = id
-        ? await supabase.from('streaks').update({ name: input.name.trim(), icon: input.icon, deadline: input.deadline, reminder: input.reminder }).eq('id', id)
+        ? await supabase.from('streaks').update({ name: input.name.trim(), icon: input.icon, reminder_time: input.reminder_time, reminder: input.reminder }).eq('id', id)
         : await supabase.from('streaks').insert({
             ...input, name: input.name.trim(), couple_id: t.couple.id, created_by: t.me,
             // el servidor los reescribe; se envían porque son NOT NULL

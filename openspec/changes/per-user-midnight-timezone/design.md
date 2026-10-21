@@ -21,7 +21,7 @@ Ver proposal.md (Why). Hoy:
 ## Decisions
 
 ### Zona en `profiles.timezone`
-`profiles.timezone text not null`, validada contra `pg_timezone_names`. Backfill con la zona de la pareja de cada miembro y luego `drop column couples.timezone`. `set_timezone(p_timezone)` actualiza el perfil de `auth.uid()`. `create_couple` ya no recibe zona.
+`profiles.timezone text not null`, validada contra `pg_timezone_names` con un trigger (una zona inválida rompería el cierre de todas las parejas). Backfill con la zona de la pareja de cada miembro y luego `drop column couples.timezone`. Se elimina `set_timezone`: la app actualiza `profiles.timezone` directo (RLS "editar propio" + trigger). `create_couple` ya no recibe zona.
 Alternativa descartada: guardar zona en `couple_members`. El perfil existe antes de emparejarse y la zona es de la persona, no de la relación.
 
 ### Helper `user_today(uid) returns date`
@@ -40,8 +40,11 @@ Lo mismo aplica a `use_freeze`: protege `user_today(auth.uid())` si `> closed_th
 ### `deadline` → `reminder_time`
 `alter table streaks rename column deadline to reminder_time`, backfill `reminder_time := deadline - interval '2 hours'` (mismo momento en que hoy sale la push), y `drop pending_deadline, pending_from` + `drop function deadline_on`. El cron de recordatorios elige, por miembro, las rachas con `reminder` activo cuya `reminder_time` ya pasó en la zona del miembro, que no ha cumplido en su `user_today` y sin push enviada ese día (la dedupe actual pasa a usar la fecha local del miembro).
 
+### Desfase visible: `prev`
+Si voy adelantado, mi "ayer" sigue abierto hasta la medianoche de mi pareja y los contadores aún no lo incluyen. Sin corregirlo, el conteo bajaría un día en mi pantalla durante esas horas. `today_state` trae por racha diaria `prev = { due, protected, done }` cuando `closed_through < hoy − 1`, y la UI lo suma (o lo trata como ruptura) en el conteo de la racha y en la racha en pareja. Las semanales esperan al cierre (`ponytail:` en el SQL).
+
 ### `today_state`
-`today` = fecha local de quien consulta; `done`/`week_count` se calculan para esa fecha (incluye la de la pareja, que es la regla de specs/daily-check-in). Se añade `members[].today` para que la UI muestre "ya va en mañana" cuando `partner.today > today`. `deadline`/`next_deadline` salen; entra `reminder_time`.
+`today` = fecha local de quien consulta; `done`/`week_count` se calculan para esa fecha (incluye la de la pareja, que es la regla de specs/daily-check-in). Se añaden `timezone` (la de quien consulta, reemplaza `couple.timezone`) y `members[].today` para que la UI muestre "ya va en mañana" cuando `partner.today > today`. `deadline`/`next_deadline` salen; entra `reminder_time`.
 
 ### Front
 - `time.ts`: `msUntil(deadline, tz)` → `msUntilMidnight(tz)`; usa `Intl.DateTimeFormat().resolvedOptions().timeZone`.

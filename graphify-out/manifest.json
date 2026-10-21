@@ -10,13 +10,13 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1792554168.867958,
-    "ast_hash": "5a9c2a142c8760bba9114c7c05b82b8d",
+    "mtime": 1792559888.776897,
+    "ast_hash": "98f65e25bc5a6377c5073f3b71458cbb",
     "semantic_hash": ""
   },
   "src/App.tsx": {
-    "mtime": 1792410162.0911553,
-    "ast_hash": "16b868c42848867213efcccbe9baa6c3",
+    "mtime": 1792559888.7772796,
+    "ast_hash": "c9f3af243767e63b9a6af837d06cd15b",
     "semantic_hash": ""
   },
   "src/components/Flame.tsx": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "src/components/StreakRow.tsx": {
-    "mtime": 1792395799.7907336,
-    "ast_hash": "74b8fcf03025e4bc2702f39212d587d7",
+    "mtime": 1792559888.7773757,
+    "ast_hash": "5b9924a62b7ac14420dce15a172171c9",
     "semantic_hash": ""
   },
   "src/components/TabBar.tsx": {
@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "src/lib/database.types.ts": {
-    "mtime": 1792410103.7558393,
-    "ast_hash": "7b2e3269771a3e155a8db252daa36044",
+    "mtime": 1792559888.7773757,
+    "ast_hash": "67ad72e9dcd8a1587f2b8dbb8924adaf",
     "semantic_hash": ""
   },
   "src/lib/push.ts": {
@@ -60,8 +60,8 @@
     "semantic_hash": ""
   },
   "src/lib/queries.ts": {
-    "mtime": 1792410132.0394945,
-    "ast_hash": "73b6c4ae7368fa098d89b21d86647669",
+    "mtime": 1792559888.7773757,
+    "ast_hash": "8b8632c174f7e83d8e22954d76a4838a",
     "semantic_hash": ""
   },
   "src/lib/realtime.ts": {
@@ -75,13 +75,13 @@
     "semantic_hash": ""
   },
   "src/lib/time.test.ts": {
-    "mtime": 1792395650.340582,
-    "ast_hash": "1d4e59e451599e4e3c15950ecf9c3e06",
+    "mtime": 1792559888.7776139,
+    "ast_hash": "0b097aa3c1a1c74605fb7327f96ca7f0",
     "semantic_hash": ""
   },
   "src/lib/time.ts": {
-    "mtime": 1792395650.287233,
-    "ast_hash": "8b19c926a3f7d840a668c715b0036800",
+    "mtime": 1792559888.7776139,
+    "ast_hash": "a1627e60ca25db6ac7e31fa7c16809c1",
     "semantic_hash": ""
   },
   "src/lib/toast.ts": {
@@ -100,8 +100,8 @@
     "semantic_hash": ""
   },
   "src/screens/Danger.tsx": {
-    "mtime": 1792410132.0513682,
-    "ast_hash": "d7f181cd92c1f3bcd516af20810cafce",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "cbd6f092a4931079d10398a7edccf4d6",
     "semantic_hash": ""
   },
   "src/screens/Login.tsx": {
@@ -110,28 +110,28 @@
     "semantic_hash": ""
   },
   "src/screens/Onboarding.tsx": {
-    "mtime": 1792399758.1171422,
-    "ast_hash": "f315c4ffeb532d6e18f07401de372cf4",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "61170b5eb91907e70805db244124bd94",
     "semantic_hash": ""
   },
   "src/screens/Profile.tsx": {
-    "mtime": 1792410240.622608,
-    "ast_hash": "7988ec30ecb4368b3c06d8c16858fc7f",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "5f2eb621776da1535902f154ae510a61",
     "semantic_hash": ""
   },
   "src/screens/StreakForm.tsx": {
-    "mtime": 1792396056.774772,
-    "ast_hash": "dd8d063b447dce85ee56c1ece51246bb",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "9a85ae488e8f3d24fa277e2f229213eb",
     "semantic_hash": ""
   },
   "src/screens/Today.tsx": {
-    "mtime": 1792410132.0413105,
-    "ast_hash": "30129d528ec46906d11e881218fc2db9",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "7471e108b18462dc1f2c86ce1b2ae0b9",
     "semantic_hash": ""
   },
   "src/screens/Us.tsx": {
-    "mtime": 1792410162.090695,
-    "ast_hash": "721152b4a62885a8d54f52162f77c854",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "d8473cb8b8efc6f0a4b9d68417fa1c2f",
     "semantic_hash": ""
   },
   "src/sw.ts": {
@@ -180,18 +180,18 @@
     "semantic_hash": ""
   },
   "supabase/tests/01_pairing_rls.sql": {
-    "mtime": 1792410364.6857042,
-    "ast_hash": "958cdcc557b1be0a6ca2fba47b5d1153",
+    "mtime": 1792559888.7778196,
+    "ast_hash": "005883d1fd0a916ccc2775fd352b36a9",
     "semantic_hash": ""
   },
   "supabase/tests/02_close_days.sql": {
-    "mtime": 1792410364.6860168,
-    "ast_hash": "baa02915b79e65f6933f74e765b85311",
+    "mtime": 1792559888.7779505,
+    "ast_hash": "21b31590594709433d7a68836362b517",
     "semantic_hash": ""
   },
   "supabase/tests/03_reminders.sql": {
-    "mtime": 1792399705.1744156,
-    "ast_hash": "c869d0646e9f742b377c0c5880d75d7a",
+    "mtime": 1792559888.7779505,
+    "ast_hash": "c2b970c842d060ac752f38900b515c82",
     "semantic_hash": ""
   },
   "tsconfig.app.json": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "src/screens/Achievements.tsx": {
-    "mtime": 1792410161.854651,
-    "ast_hash": "de2ec020bb6c6569e2bb287a65e5a59e",
+    "mtime": 1792559888.7776139,
+    "ast_hash": "a2ceab243798e87208b833a58cd14f90",
     "semantic_hash": ""
   },
   "supabase/migrations/20261019000006_hardening.sql": {
@@ -525,8 +525,8 @@
     "semantic_hash": ""
   },
   "supabase/tests/04_solo_start.sql": {
-    "mtime": 1792410364.6862676,
-    "ast_hash": "9dc659ecef833a1f03e4860e459166d6",
+    "mtime": 1792559888.7779505,
+    "ast_hash": "f1e731c5f077115337ba08c84ff64009",
     "semantic_hash": ""
   },
   ".agents/skills/source-command-opsx-apply/SKILL.md": {
@@ -559,34 +559,14 @@
     "ast_hash": "dc7b76e6f7dec32eeee521749bf79e89",
     "semantic_hash": ""
   },
-  "openspec/changes/lucide-icons/.openspec.yaml": {
-    "mtime": 1792554001.7417552,
-    "ast_hash": "f35d2c2c7e8437b34976d6e8ce8ff112",
-    "semantic_hash": ""
-  },
-  "openspec/changes/lucide-icons/design.md": {
-    "mtime": 1792554001.7437553,
-    "ast_hash": "ff0bf574e63a1bb5ff0f5c41dc502d35",
-    "semantic_hash": ""
-  },
-  "openspec/changes/lucide-icons/proposal.md": {
-    "mtime": 1792554001.7427552,
-    "ast_hash": "4a9a679486016ac19daa944d6714e82d",
-    "semantic_hash": ""
-  },
-  "openspec/changes/lucide-icons/tasks.md": {
-    "mtime": 1792554188.223342,
-    "ast_hash": "7105098c565af4e480056d031d4c4811",
-    "semantic_hash": ""
-  },
   "openspec/changes/per-user-midnight-timezone/.openspec.yaml": {
     "mtime": 1792553952.9578276,
     "ast_hash": "328aa401f592c63f23aed934ffffcfb1",
     "semantic_hash": ""
   },
   "openspec/changes/per-user-midnight-timezone/design.md": {
-    "mtime": 1792554081.1172721,
-    "ast_hash": "415880930704397c63f17a1215ba3fb4",
+    "mtime": 1792559904.884107,
+    "ast_hash": "812fffe7e015af369beef970007ed269",
     "semantic_hash": ""
   },
   "openspec/changes/per-user-midnight-timezone/proposal.md": {
@@ -615,8 +595,33 @@
     "semantic_hash": ""
   },
   "openspec/changes/per-user-midnight-timezone/tasks.md": {
-    "mtime": 1792554081.1186981,
-    "ast_hash": "6a37acb37af92d5cacfabff0e9b8eafb",
+    "mtime": 1792559904.8842897,
+    "ast_hash": "283d28072d04a3a4c61db979131c2f91",
+    "semantic_hash": ""
+  },
+  "supabase/migrations/20261020000001_per_user_tz.sql": {
+    "mtime": 1792559637.969065,
+    "ast_hash": "a31f2d747d8c7b3ff3491a35e54e9129",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-lucide-icons/.openspec.yaml": {
+    "mtime": 1792554001.7417552,
+    "ast_hash": "f35d2c2c7e8437b34976d6e8ce8ff112",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-lucide-icons/design.md": {
+    "mtime": 1792554001.7437553,
+    "ast_hash": "ff0bf574e63a1bb5ff0f5c41dc502d35",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-lucide-icons/proposal.md": {
+    "mtime": 1792554001.7427552,
+    "ast_hash": "4a9a679486016ac19daa944d6714e82d",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-10-20-lucide-icons/tasks.md": {
+    "mtime": 1792559456.6016343,
+    "ast_hash": "a8926ae7bb4e7229cf403cf36961fb24",
     "semantic_hash": ""
   }
 }

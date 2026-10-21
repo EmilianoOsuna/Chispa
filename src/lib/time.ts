@@ -12,21 +12,17 @@ export function zoned(tz: string, at = new Date()) {
   }
 }
 
-const toSeconds = (hms: string) => {
-  const [h, m, s = 0] = hms.split(':').map(Number)
-  return h * 3600 + m * 60 + s
-}
+/** Zona IANA del dispositivo. */
+export const deviceTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone
 
-/** ms desde `at` hasta la hora límite `deadline` (HH:MM[:SS]) de hoy en `tz`; 0 si ya pasó. */
-export function msUntil(deadline: string, tz: string, at = new Date()): number {
+/** ms desde `at` hasta la próxima medianoche en `tz`. */
+export function msUntilMidnight(tz: string, at = new Date()): number {
   const now = zoned(tz, at)
-  const target = toSeconds(deadline)
-  if (target <= now.seconds) return 0
   // Primera aproximación con reloj de pared; luego se corrige por si hay cambio de horario en medio.
-  let t = at.getTime() - at.getMilliseconds() + (target - now.seconds) * 1000
+  let t = at.getTime() - at.getMilliseconds() + (86400 - now.seconds) * 1000
   const check = zoned(tz, new Date(t))
-  if (check.date === now.date) t += (target - check.seconds) * 1000
-  return Math.max(0, t - at.getTime())
+  t += (check.date === now.date ? 86400 - check.seconds : -check.seconds) * 1000
+  return t - at.getTime()
 }
 
 export function splitMs(ms: number) {

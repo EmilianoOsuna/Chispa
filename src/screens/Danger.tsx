@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router'
 import { motion } from 'motion/react'
 import { errorMessage, periodDone, useCheckIn, useFreeze, useToday, type Streak } from '../lib/queries'
-import { msUntil, pad, splitMs } from '../lib/time'
+import { msUntilMidnight, pad, splitMs } from '../lib/time'
 import { toast } from '../lib/toast'
 import { Flame } from '../components/Flame'
 import { Icon } from '../components/Icon'
@@ -33,7 +33,7 @@ export default function Danger() {
   const acting = checkIn.isPending || checkIn.isSuccess || freeze.isPending || freeze.isSuccess
   if (!acting && (periodDone(s, t.me) || s.protected)) return <Navigate to="/" replace />
 
-  const ms = msUntil(s.deadline, t.couple.timezone)
+  const ms = msUntilMidnight(t.timezone)
   const { h, m, s: sec } = splitMs(ms)
   const closed = ms <= 0
   const atStake = s.counters[t.me]?.current ?? 0

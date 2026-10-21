@@ -5,7 +5,7 @@ import {
   dangerStreak, errorMessage, pairDone, periodDone, summarize, useCheckIn, useNudge, useToday,
   type Streak, type Today as TodayData,
 } from '../lib/queries'
-import { addDays, isoDow, msUntil, splitMs } from '../lib/time'
+import { addDays, isoDow, splitMs } from '../lib/time'
 import { toast } from '../lib/toast'
 import { Avatar, Count, Week, weekCells } from '../components/bits'
 import { Flame } from '../components/Flame'
@@ -40,7 +40,7 @@ export default function Today() {
     if (!t) return
     const fromPush = params.get('streak')
     const s = fromPush ? t.streaks.find((x) => x.id === fromPush && !periodDone(x, t.me) && x.due_today) : dangerStreak(t)
-    if (!s || msUntil(s.deadline, t.couple.timezone) <= 0) return
+    if (!s) return
     if (!fromPush && localStorage.getItem(dangerKey(s.id, t.today))) return
     navigate(`/racha/${s.id}/peligro`)
   }, [t, params, navigate])

@@ -13,7 +13,7 @@ export default function Achievements() {
   const next = ACHIEVEMENTS.find((a) => a.goal && !when.has(a.code))
   const prevGoal = next ? Math.max(0, ...ACHIEVEMENTS.filter((a) => a.goal && a.goal < next.goal!).map((a) => a.goal!)) : 0
   const progress = next ? Math.min(1, Math.max(0, (sum.coupleStreak - prevGoal) / (next.goal! - prevGoal))) : 1
-  const date = (iso: string) => new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: t.couple.timezone }).format(new Date(iso)).replace('.', '')
+  const date = (iso: string) => new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: t.timezone }).format(new Date(iso)).replace('.', '')
 
   return (
     <main className="flex flex-col gap-4 px-[18px] pt-[18px] pb-32">

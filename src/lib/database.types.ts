@@ -123,14 +123,14 @@ isOneToOne: true
                   ]
                 },"couples": {
                   Row: {
-                    "best_streak": number,"closed_through": string,"created_at": string,"freezes": number,"id": string,"invite_code": string,"paired_at": string | null,"timezone": string
+                    "best_streak": number,"closed_through": string,"created_at": string,"freezes": number,"id": string,"invite_code": string,"paired_at": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "best_streak"?: number,"closed_through": string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code": string,"paired_at"?: string | null,"timezone": string
+                    "best_streak"?: number,"closed_through": string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code": string,"paired_at"?: string | null
                   }
                   Update: {
-                    "best_streak"?: number,"closed_through"?: string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code"?: string,"paired_at"?: string | null,"timezone"?: string
+                    "best_streak"?: number,"closed_through"?: string,"created_at"?: string,"freezes"?: number,"id"?: string,"invite_code"?: string,"paired_at"?: string | null
                   }
                   Relationships: [
                     
@@ -207,14 +207,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_seed": string | null,"avatar_style": string | null,"created_at": string,"id": string,"name": string
+                    "avatar_seed": string | null,"avatar_style": string | null,"created_at": string,"id": string,"name": string,"timezone": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id": string,"name": string
+                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id": string,"name": string,"timezone"?: string
                   }
                   Update: {
-                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id"?: string,"name"?: string
+                    "avatar_seed"?: string | null,"avatar_style"?: string | null,"created_at"?: string,"id"?: string,"name"?: string,"timezone"?: string
                   }
                   Relationships: [
                     
@@ -319,14 +319,14 @@ isOneToOne: false
                   ]
                 },"streaks": {
                   Row: {
-                    "archived_at": string | null,"archived_on": string | null,"closed_through": string,"couple_id": string,"created_at": string,"created_by": string,"deadline": string,"frequency": string,"icon": string,"id": string,"mode": string,"name": string,"pending_deadline": string | null,"pending_from": string | null,"reminder": boolean,"start_date": string,"weekly_target": number | null
+                    "archived_at": string | null,"archived_on": string | null,"closed_through": string,"couple_id": string,"created_at": string,"created_by": string,"frequency": string,"icon": string,"id": string,"mode": string,"name": string,"reminder": boolean,"reminder_time": string,"start_date": string,"weekly_target": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived_at"?: string | null,"archived_on"?: string | null,"closed_through": string,"couple_id": string,"created_at"?: string,"created_by": string,"deadline"?: string,"frequency": string,"icon": string,"id"?: string,"mode": string,"name": string,"pending_deadline"?: string | null,"pending_from"?: string | null,"reminder"?: boolean,"start_date": string,"weekly_target"?: number | null
+                    "archived_at"?: string | null,"archived_on"?: string | null,"closed_through": string,"couple_id": string,"created_at"?: string,"created_by": string,"frequency": string,"icon": string,"id"?: string,"mode": string,"name": string,"reminder"?: boolean,"reminder_time"?: string,"start_date": string,"weekly_target"?: number | null
                   }
                   Update: {
-                    "archived_at"?: string | null,"archived_on"?: string | null,"closed_through"?: string,"couple_id"?: string,"created_at"?: string,"created_by"?: string,"deadline"?: string,"frequency"?: string,"icon"?: string,"id"?: string,"mode"?: string,"name"?: string,"pending_deadline"?: string | null,"pending_from"?: string | null,"reminder"?: boolean,"start_date"?: string,"weekly_target"?: number | null
+                    "archived_at"?: string | null,"archived_on"?: string | null,"closed_through"?: string,"couple_id"?: string,"created_at"?: string,"created_by"?: string,"frequency"?: string,"icon"?: string,"id"?: string,"mode"?: string,"name"?: string,"reminder"?: boolean,"reminder_time"?: string,"start_date"?: string,"weekly_target"?: number | null
                   }
                   Relationships: [
                     {
@@ -389,19 +389,18 @@ isOneToOne: false
 "close_streak_day":
 { Args: { "d": string,"p_flame": string,"p_sky": string,"s": Omit<Database["public"]['Tables']["streaks"]['Row'], Database["public"]['Tables']["streaks"]['ComputedFields']> }; Returns: undefined
                            },
-"couple_now":
+"couple_today":
 { Args: { "p_couple": string }; Returns: string
                            },
 "create_couple":
-{ Args: { "p_timezone": string }; Returns: {
+{ Args: Record<PropertyKey, never>; Returns: {
               "best_streak": number,
 "closed_through": string,
 "created_at": string,
 "freezes": number,
 "id": string,
 "invite_code": string,
-"paired_at": string | null,
-"timezone": string
+"paired_at": string | null
             }
                           SetofOptions: {
         from: "*"
@@ -409,9 +408,6 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
-"deadline_on":
-{ Args: { "d": string,"s": Omit<Database["public"]['Tables']["streaks"]['Row'], Database["public"]['Tables']["streaks"]['ComputedFields']> }; Returns: string
-                           },
 "is_due":
 { Args: { "d": string,"s": Omit<Database["public"]['Tables']["streaks"]['Row'], Database["public"]['Tables']["streaks"]['ComputedFields']> }; Returns: boolean
                            },
@@ -429,8 +425,7 @@ isOneToOne: false
 "freezes": number,
 "id": string,
 "invite_code": string,
-"paired_at": string | null,
-"timezone": string
+"paired_at": string | null
             }
                           SetofOptions: {
         from: "*"
@@ -461,9 +456,6 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
-"set_timezone":
-{ Args: { "p_timezone": string }; Returns: undefined
-                           },
 "today_state":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -472,6 +464,9 @@ isOneToOne: false
                            },
 "use_freeze":
 { Args: { "p_streak": string }; Returns: undefined
+                           },
+"user_today":
+{ Args: { "p_user": string }; Returns: string
                            }
           }
           Enums: {

@@ -41,7 +41,7 @@ export default function Us() {
   const sky = t.members.find((x) => x.color === 'sky')
   const isCurrent = t.today.startsWith(`${ym.y}-${String(ym.m).padStart(2, '0')}`)
   const paired = t.couple.paired_at ? new Date(t.couple.paired_at) : null
-  const since = paired && new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: t.couple.timezone }).format(paired).replace('.', '')
+  const since = paired && new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: t.timezone }).format(paired).replace('.', '')
   const shift = (d: number) => setYm(({ y, m }) => { const k = y * 12 + (m - 1) + d; return { y: Math.floor(k / 12), m: (k % 12) + 1 } })
 
   return (

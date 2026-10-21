@@ -4,7 +4,7 @@ import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
-import { useMembership, useSession } from './lib/queries'
+import { useMembership, useSession, useTimezoneSync } from './lib/queries'
 import { useCoupleRealtime } from './lib/realtime'
 import { dismiss, useToasts } from './lib/toast'
 import { TabBar } from './components/TabBar'
@@ -64,6 +64,7 @@ const FULLSCREEN = /^\/(racha|celebracion)/
 
 function Main({ coupleId }: { coupleId: string }) {
   useCoupleRealtime(coupleId)
+  useTimezoneSync()
   const location = useLocation()
   const full = FULLSCREEN.test(location.pathname)
   return (

@@ -26,8 +26,8 @@ set local app.now = '2026-10-14 12:00:00-06'; -- miércoles
 -- A crea pareja
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000a","role":"authenticated"}', true);
 set local role authenticated;
-select lives_ok($$ select public.create_couple('America/Mexico_City') $$, 'A crea pareja');
-select throws_ok($$ select public.create_couple('America/Mexico_City') $$, 'already_paired', 'A no puede crear otra');
+select lives_ok($$ select public.create_couple() $$, 'A crea pareja');
+select throws_ok($$ select public.create_couple() $$, 'already_paired', 'A no puede crear otra');
 reset role;
 update public.couples set invite_code = 'AAAAAA' where id = (select couple_id from public.couple_members where user_id = '00000000-0000-0000-0000-00000000000a');
 
@@ -48,7 +48,7 @@ select is((select count(*)::int from public.couple_members where user_id = '0000
 -- C + D
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000c","role":"authenticated"}', true);
 set local role authenticated;
-select public.create_couple('America/Mexico_City');
+select public.create_couple();
 reset role;
 update public.couples set invite_code = 'BBBBBB' where id = (select couple_id from public.couple_members where user_id = '00000000-0000-0000-0000-00000000000c');
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000d","role":"authenticated"}', true);
@@ -62,7 +62,7 @@ insert into t.ids select 'ab', id from public.couples where invite_code = 'AAAAA
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000a","role":"authenticated"}', true);
 set local role authenticated;
 select lives_ok($$
-  insert into public.streaks (id, couple_id, name, icon, frequency, mode, deadline, created_by) values
+  insert into public.streaks (id, couple_id, name, icon, frequency, mode, reminder_time, created_by) values
   ('10000000-0000-0000-0000-000000000001', public.my_couple(), 'Ejercicio', 'ejercicio', 'daily', 'together', '21:00', auth.uid()),
   ('10000000-0000-0000-0000-000000000002', public.my_couple(), 'Leer', 'leer', 'weekdays', 'solo', '23:59', auth.uid())
 $$, 'A crea rachas');
